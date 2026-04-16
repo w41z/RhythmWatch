@@ -10,3 +10,4 @@ You can use the following command to create a new branch and switch to it:
 git branch <name_of_branch>
 git switch <name_of_branch>
 ```
+Make a Pull Request (PR) for a potential good upgrade/feature!
