@@ -4,4 +4,5 @@ mx.scratch
 .clangd
 c_cpp_properties.json
 .DS_Store
+Thumbs.db
 *.log
