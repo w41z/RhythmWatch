@@ -21,6 +21,9 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "max30102.h"
+#include "oximeter.h"
+#include "rw_display.h"
 
 /* USER CODE END Includes */
 
@@ -42,7 +45,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-int color_state = 0;
+static oximeter_reading_t g_reading = {0};
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -63,7 +66,6 @@ static void MX_GPIO_Init(void);
   */
 int main(void)
 {
-
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
@@ -87,10 +89,33 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
-  // Initial every pin to high -> LED goes off
+  /* Initial every pin to high -> LED goes off */
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_SET);
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, GPIO_PIN_SET);
+
+  rw_display_init();
+  if (!oximeter_init())
+  {
+    max30102_init_status_t st = max30102_get_last_init_status();
+    if (st == MAX30102_INIT_I2C_FAIL)
+    {
+      rw_display_show_error("MAX30102 init fail", "I2C no ACK");
+    }
+    else if (st == MAX30102_INIT_CONFIG_FAIL)
+    {
+      rw_display_show_error("MAX30102 init fail", "Config write failed");
+    }
+    else
+    {
+      rw_display_show_error("MAX30102 init fail", "Sensor not ready");
+    }
+    HAL_GPIO_WritePin(GPIOB, R_Pin, GPIO_PIN_RESET);
+    while (1)
+    {
+      HAL_Delay(500U);
+    }
+  }
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -100,40 +125,25 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    // the reading from pa0 = low -> button has been press, perform the color-switching
-    if (HAL_GPIO_ReadPin(GPIOA, K1_Pin) == 1)
-    {
-      color_state++;
-      if (color_state > 3) color_state = 1;
+    (void)oximeter_process(&g_reading);
 
-      switch (color_state)
-      {
-        case 1://R
-          HAL_GPIO_WritePin(GPIOB, R_Pin, GPIO_PIN_RESET);
-          HAL_GPIO_WritePin(GPIOB, G_Pin, GPIO_PIN_SET);
-          HAL_GPIO_WritePin(GPIOB, B_Pin, GPIO_PIN_SET);
-          break;
-        case 2://G
-          HAL_GPIO_WritePin(GPIOB, R_Pin, GPIO_PIN_SET);
-          HAL_GPIO_WritePin(GPIOB, G_Pin, GPIO_PIN_RESET);
-          HAL_GPIO_WritePin(GPIOB, B_Pin, GPIO_PIN_SET);
-          break;
-        case 3://B
-          HAL_GPIO_WritePin(GPIOB, R_Pin, GPIO_PIN_SET);
-          HAL_GPIO_WritePin(GPIOB, G_Pin, GPIO_PIN_SET);
-          HAL_GPIO_WritePin(GPIOB, B_Pin, GPIO_PIN_RESET);
-          break;
+    rw_display_show_reading(&g_reading);
 
-      }
-    }
-    // wait for user to release the button
-    while (HAL_GPIO_ReadPin(GPIOA, K1_Pin) == 1)
+    if (g_reading.finger_detected && g_reading.heart_rate_valid && g_reading.spo2_valid)
     {
-      HAL_Delay(10);
+      HAL_GPIO_WritePin(GPIOB, R_Pin, GPIO_PIN_SET);
+      HAL_GPIO_WritePin(GPIOB, B_Pin, GPIO_PIN_SET);
+      HAL_GPIO_WritePin(GPIOB, G_Pin, GPIO_PIN_RESET);
     }
-    // extra delay for stability
-    HAL_Delay(10);
+    else
+    {
+      HAL_GPIO_WritePin(GPIOB, R_Pin, GPIO_PIN_SET);
+      HAL_GPIO_WritePin(GPIOB, G_Pin, GPIO_PIN_SET);
+      HAL_GPIO_WritePin(GPIOB, B_Pin, GPIO_PIN_RESET);
     }
+
+    HAL_Delay(10U);
+  }
   /* USER CODE END 3 */
 }
 

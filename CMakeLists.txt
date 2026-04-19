@@ -44,7 +44,12 @@ target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
 
 # Add sources to executable
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE
-    # Add user sources here
+    Core/Src/rw_soft_i2c.c
+    Core/Src/max30102.c
+    Core/Src/oximeter.c
+    Core/Src/rw_display.c
+    Core/Src/ili9341.c
+    Core/Src/rw_display_ili9341.c
 )
 
 # Add include paths
@@ -63,6 +68,7 @@ list(REMOVE_ITEM CMAKE_C_IMPLICIT_LINK_LIBRARIES ob)
 # Add linked libraries
 target_link_libraries(${CMAKE_PROJECT_NAME}
     stm32cubemx
+    m
 
     # Add user defined libraries
 )
