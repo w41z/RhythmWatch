@@ -11,6 +11,7 @@ set(MX_Defines_Syms
 # STM32CubeMX generated include paths
 set(MX_Include_Dirs
     ${CMAKE_CURRENT_SOURCE_DIR}/../../Core/Inc
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../Lib/Inc
     ${CMAKE_CURRENT_SOURCE_DIR}/../../Drivers/STM32F1xx_HAL_Driver/Inc
     ${CMAKE_CURRENT_SOURCE_DIR}/../../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy
     ${CMAKE_CURRENT_SOURCE_DIR}/../../Drivers/CMSIS/Device/ST/STM32F1xx/Include
@@ -23,13 +24,13 @@ set(MX_Application_Src
     ${CMAKE_CURRENT_SOURCE_DIR}/../../Core/Src/gpio.c
     ${CMAKE_CURRENT_SOURCE_DIR}/../../Core/Src/fsmc.c
     ${CMAKE_CURRENT_SOURCE_DIR}/../../Core/Src/rtc.c
-    ${CMAKE_CURRENT_SOURCE_DIR}/../../Core/Src/rgb.c
-    ${CMAKE_CURRENT_SOURCE_DIR}/../../Core/Src/lcd.c
-    ${CMAKE_CURRENT_SOURCE_DIR}/../../Core/Src/rw_rtc.c
     ${CMAKE_CURRENT_SOURCE_DIR}/../../Core/Src/stm32f1xx_it.c
     ${CMAKE_CURRENT_SOURCE_DIR}/../../Core/Src/stm32f1xx_hal_msp.c
     ${CMAKE_CURRENT_SOURCE_DIR}/../../Core/Src/sysmem.c
     ${CMAKE_CURRENT_SOURCE_DIR}/../../Core/Src/syscalls.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../Lib/Src/rgb.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../Lib/Src/lcd.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../Lib/Src/rw_rtc.c
     ${CMAKE_CURRENT_SOURCE_DIR}/../../startup_stm32f103xe.s
 )
 
