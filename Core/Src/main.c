@@ -26,6 +26,8 @@
 /* USER CODE BEGIN Includes */
 #include "lcd.h"
 #include "rgb.h"
+#include "rw_rtc.h"     // self-defined RTC read/write functions
+#include "stm32f103xe.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -88,7 +90,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_RTC_Init();
+  MX_RTC_Init();  // RTC initialization is done in RW_RTC_Init() instead of here, so we can check the backup register to see if the RTC has been initialized before
   MX_FSMC_Init();
   /* USER CODE BEGIN 2 */
   LCD_INIT();
@@ -104,6 +106,7 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
     Led_toggle_RGB();
+    RW_RTC_DisplayTime();
   /* USER CODE END 3 */
   }
 }

@@ -25,6 +25,7 @@ set(MX_Application_Src
     ${CMAKE_CURRENT_SOURCE_DIR}/../../Core/Src/rtc.c
     ${CMAKE_CURRENT_SOURCE_DIR}/../../Core/Src/rgb.c
     ${CMAKE_CURRENT_SOURCE_DIR}/../../Core/Src/lcd.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../Core/Src/rw_rtc.c
     ${CMAKE_CURRENT_SOURCE_DIR}/../../Core/Src/stm32f1xx_it.c
     ${CMAKE_CURRENT_SOURCE_DIR}/../../Core/Src/stm32f1xx_hal_msp.c
     ${CMAKE_CURRENT_SOURCE_DIR}/../../Core/Src/sysmem.c

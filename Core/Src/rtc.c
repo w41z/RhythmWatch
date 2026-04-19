@@ -21,7 +21,7 @@
 #include "rtc.h"
 
 /* USER CODE BEGIN 0 */
-
+#include "rw_rtc.h"
 /* USER CODE END 0 */
 
 RTC_HandleTypeDef hrtc;
@@ -31,7 +31,12 @@ void MX_RTC_Init(void)
 {
 
   /* USER CODE BEGIN RTC_Init 0 */
-
+  hrtc.Instance = RTC;
+  hrtc.Init.AsynchPrediv = RTC_AUTO_1_SECOND;
+  hrtc.Init.OutPut = RTC_OUTPUTSOURCE_ALARM;
+  // Skip the default RTC initialization since we have already initialized it in RW_RTC_Init
+  RW_RTC_Init();
+  return;
   /* USER CODE END RTC_Init 0 */
 
   /* USER CODE BEGIN RTC_Init 1 */
