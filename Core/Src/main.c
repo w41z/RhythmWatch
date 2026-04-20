@@ -90,7 +90,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_RTC_Init();  // RTC initialization is done in RW_RTC_Init() instead of here, so we can check the backup register to see if the RTC has been initialized before
+  MX_RTC_Init();
   MX_FSMC_Init();
   /* USER CODE BEGIN 2 */
   LCD_INIT();

@@ -162,12 +162,12 @@ struct tm* RW_RTC_GetTime()
 // self-defined RTC_Init function, which initializes the RTC with a default time if it has not been initialized before, and sets a backup register to indicate that the RTC has been initialized
 void RW_RTC_Init()
 {
-    // uint32_t init_Flag = HAL_RTCEx_BKUPRead(&hrtc, RTC_BKP_DR1);
-    // if (init_Flag == RTC_INIT_FLAG)
-    // {
-    //     // RTC has been initialized before, no need to set the time again
-    //     return;
-    // }
+    uint32_t init_Flag = HAL_RTCEx_BKUPRead(&hrtc, RTC_BKP_DR1);
+    if (init_Flag == RTC_INIT_FLAG)
+    {
+        // RTC has been initialized before, no need to set the time again
+        return;
+    }
     
     if (HAL_RTC_Init(&hrtc) != HAL_OK)
     {
@@ -178,8 +178,8 @@ void RW_RTC_Init()
         .tm_year = 2026 - 1900, // tm_year is years since 1900
         .tm_mon = 4 - 1, // tm_mon is 0-11 for Jan-Dec
         .tm_mday = 20,
-        .tm_hour = 15,
-        .tm_min = 41,
+        .tm_hour = 16,
+        .tm_min = 43,
         .tm_sec = 59,
     };
 
