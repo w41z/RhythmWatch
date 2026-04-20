@@ -25,7 +25,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "lcd.h"
-#include "rgb.h"
+// #include "rgb.h"
 #include "rw_rtc.h"     // self-defined RTC read/write functions
 #include "stm32f103xe.h"
 /* USER CODE END Includes */
@@ -95,7 +95,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   LCD_INIT();
   // Initial every pin to high -> LED goes off
-  RGB_Init();
+  // RGB_Init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -105,7 +105,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    Led_toggle_RGB();
+    // Led_toggle_RGB();
     RW_RTC_DisplayTime();
   /* USER CODE END 3 */
   }

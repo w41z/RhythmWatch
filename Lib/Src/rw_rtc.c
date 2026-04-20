@@ -1,8 +1,32 @@
 #include "rw_rtc.h"
 #include "stm32f1xx_hal_rtc_ex.h"
+#include <sys/types.h>
 
-static char message[50] = "";
-static struct tm *now;
+static char message[50] = "";   // buffer for sprintf
+static struct tm *now;    // global variable to hold the current time read from RTC
+static char weekday[7][10] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};  // array to convert tm_wday (0-6) to weekday string
+
+// enum of system mode (display or edit) and the field being edited (year, month, day, hour, min, sec, wday)
+typedef enum {
+    MODE_DISPLAY,
+    MODE_EDIT
+} SystemMode;
+typedef enum {
+    FIELD_YEAR,
+    FIELD_MONTH,
+    FIELD_MDAY,
+    FIELD_HOUR,
+    FIELD_MIN,
+    FIELD_SEC,
+    FIELD_WDAY,
+    NUM_FIELDS          // = 7
+} EditField;
+
+// initialization of system mode and edit field
+SystemMode sys_mode = MODE_DISPLAY;
+EditField curr_field = FIELD_YEAR;
+
+static struct tm edit_tm;
 
 /**
   * @brief  Enters the RTC Initialization mode.
@@ -138,12 +162,12 @@ struct tm* RW_RTC_GetTime()
 // self-defined RTC_Init function, which initializes the RTC with a default time if it has not been initialized before, and sets a backup register to indicate that the RTC has been initialized
 void RW_RTC_Init()
 {
-    uint32_t init_Flag = HAL_RTCEx_BKUPRead(&hrtc, RTC_BKP_DR1);
-    if (init_Flag == RTC_INIT_FLAG)
-    {
-        // RTC has been initialized before, no need to set the time again
-        return;
-    }
+    // uint32_t init_Flag = HAL_RTCEx_BKUPRead(&hrtc, RTC_BKP_DR1);
+    // if (init_Flag == RTC_INIT_FLAG)
+    // {
+    //     // RTC has been initialized before, no need to set the time again
+    //     return;
+    // }
     
     if (HAL_RTC_Init(&hrtc) != HAL_OK)
     {
@@ -152,10 +176,10 @@ void RW_RTC_Init()
 
     struct tm time = {
         .tm_year = 2026 - 1900, // tm_year is years since 1900
-        .tm_mon = 1 - 1, // tm_mon is 0-11 for Jan-Dec
-        .tm_mday = 1,
-        .tm_hour = 23,
-        .tm_min = 59,
+        .tm_mon = 4 - 1, // tm_mon is 0-11 for Jan-Dec
+        .tm_mday = 20,
+        .tm_hour = 15,
+        .tm_min = 41,
         .tm_sec = 59,
     };
 
@@ -170,5 +194,10 @@ void RW_RTC_DisplayTime()
     // Format the time as "YYYY-MM-DD HH:MM:SS" and display it on the LCD
     sprintf(message, "%d-%d-%d %02d:%02d:%02d", now->tm_year + 1900, now->tm_mon + 1, now->tm_mday, now->tm_hour, now->tm_min, now->tm_sec);
     LCD_DrawString(10, 10, message);
+    char* week = weekday[now->tm_wday];
+    LCD_DrawString(10, 30, week);
     HAL_Delay(1000); // Update every second
 }
+
+
+
