@@ -3,8 +3,8 @@
 
 #include "stm32f1xx_hal.h"
 
-#define K1_Pin GPIO_PIN_0
-#define K1_GPIO_Port GPIOA
+#define K1_Pin GPIO_PIN_13
+#define K1_GPIO_Port GPIOC
 #define R_Pin GPIO_PIN_5
 #define R_GPIO_Port GPIOB
 #define G_Pin GPIO_PIN_0
