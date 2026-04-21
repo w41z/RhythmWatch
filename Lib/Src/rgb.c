@@ -11,7 +11,7 @@ void RGB_Init() {
 
 void Led_toggle_RGB() {    
     // the reading from pa0 = high -> button has been press, perform the color-switching
-    if (HAL_GPIO_ReadPin(K1_GPIO_Port, K1_Pin) == SET)
+    if (HAL_GPIO_ReadPin(K1_GPIO_Port, K1_Pin) == GPIO_PIN_SET)
     {
       color_state++;
       if (color_state > 3) color_state = 1;
