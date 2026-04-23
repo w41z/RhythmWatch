@@ -19,6 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "rtc.h"
+#include "usart.h"
 #include "gpio.h"
 #include "fsmc.h"
 
@@ -28,6 +29,8 @@
 // #include "rgb.h"
 #include "rw_rtc.h"     // self-defined RTC read/write functions
 #include "stm32f103xe.h"
+#include "ESP8266_HAL.h"
+#include "UartRingbuffer_multi.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -92,7 +95,10 @@ int main(void)
   MX_GPIO_Init();
   MX_RTC_Init();
   MX_FSMC_Init();
+  MX_USART1_UART_Init();
+  MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
+  // ESP_Init();
   LCD_INIT();
   // Initial every pin to high -> LED goes off
   // RGB_Init();
@@ -108,10 +114,10 @@ int main(void)
     // Led_toggle_RGB();
     RW_RTC_ButtonHandler();
     RW_RTC_DisplayTime();
+    // Server_Program();
   /* USER CODE END 3 */
   }
 }
-
 /**
   * @brief System Clock Configuration
   * @retval None
