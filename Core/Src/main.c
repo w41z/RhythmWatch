@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "dma.h"
 #include "rtc.h"
 #include "usart.h"
 #include "gpio.h"
@@ -29,8 +30,9 @@
 // #include "rgb.h"
 #include "rw_rtc.h"     // self-defined RTC read/write functions
 #include "stm32f103xe.h"
-#include "ESP8266_HAL.h"
-#include "UartRingbuffer_multi.h"
+// #include "ESP8266_HAL.h"
+// #include "UartRingbuffer_multi.h"
+#include "bsp_esp8266.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -93,12 +95,14 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_RTC_Init();
   MX_FSMC_Init();
   MX_USART1_UART_Init();
   MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
   // ESP_Init();
+  ESP8266_Init();
   LCD_INIT();
   // Initial every pin to high -> LED goes off
   // RGB_Init();
