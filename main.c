@@ -17,6 +17,7 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
+#include <examples/porting/lv_port_disp.h>
 #include "main.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -29,11 +30,7 @@
 #include "dht11.h"
 #include "gui_guider.h"
 #include "events_init.h"
-
-#include "rtc_manager.h";
-
 /* USER CODE END Includes */
-
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
 
@@ -49,18 +46,14 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
- RTC_HandleTypeDef hrtc;
-
-TIM_HandleTypeDef htim1;
+ TIM_HandleTypeDef htim1;
 
 SRAM_HandleTypeDef hsram1;
 
 /* USER CODE BEGIN PV */
 lv_ui guider_ui;
-
 lv_chart_series_t * temp_series;
 lv_chart_series_t * humi_series;
-
 // Sensor data structure
 DHT11_Data my_sensor_data;
 uint32_t sensor_timer = 0;
@@ -71,7 +64,6 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_FSMC_Init(void);
 static void MX_TIM1_Init(void);
-static void MX_RTC_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -111,21 +103,24 @@ int main(void)
   MX_GPIO_Init();
   MX_FSMC_Init();
   MX_TIM1_Init();
-  MX_RTC_Init();
   /* USER CODE BEGIN 2 */
   LCD_INIT();
   HAL_TIM_Base_Start(&htim1);
+  HAL_Delay(100);
 
   /* Initialize LVGL */
   lv_init();
   lv_port_disp_init();
   lv_port_indev_init();
+  HAL_Delay(50);
 
+  /*This is for NXP gui*/
   setup_ui(&guider_ui);
   events_init(&guider_ui);
   temp_series = lv_chart_add_series(guider_ui.dht11_screen_temp_chart, lv_palette_main(LV_PALETTE_RED), LV_CHART_AXIS_PRIMARY_Y);
   humi_series = lv_chart_add_series(guider_ui.dht11_screen_humi_chart, lv_palette_main(LV_PALETTE_BLUE), LV_CHART_AXIS_PRIMARY_Y);
-
+  lv_chart_set_point_count(guider_ui.dht11_screen_temp_chart, 10);
+  lv_chart_set_point_count(guider_ui.dht11_screen_humi_chart, 10);
 
   /* USER CODE END 2 */
 
@@ -136,54 +131,33 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  static uint32_t timer = 0;
-	      if (HAL_GetTick() - timer >= 200) {
-	          RTC_Manager_Task(&guider_ui);
-	          timer = HAL_GetTick();
-	      }
-
-
 	  if (HAL_GetTick() - sensor_timer >= 2000)
 		{
 			sensor_timer = HAL_GetTick();
-
-
 			if (lv_scr_act() == guider_ui.dht11_screen)
 			{
-				// 2. Refresh the series pointers.
-				// If the screen was deleted/recreated, we must re-add the series.
-				temp_series = lv_chart_get_series_next(guider_ui.dht11_screen_temp_chart, NULL);
-				humi_series = lv_chart_get_series_next(guider_ui.dht11_screen_humi_chart, NULL);
-
-				// 3. If the chart has no series (because it was just recreated), add them back
-				if (temp_series == NULL) {
-					temp_series = lv_chart_add_series(guider_ui.dht11_screen_temp_chart, lv_palette_main(LV_PALETTE_RED), LV_CHART_AXIS_PRIMARY_Y);
-				}
-				if (humi_series == NULL) {
-					humi_series = lv_chart_add_series(guider_ui.dht11_screen_humi_chart, lv_palette_main(LV_PALETTE_BLUE), LV_CHART_AXIS_PRIMARY_Y);
-				}
-
-				// 4. Now read the sensor and update
 				if (DHT11_Read(&my_sensor_data))
-				{
-					lv_chart_set_point_count(guider_ui.dht11_screen_temp_chart, 10);
-					lv_chart_set_point_count(guider_ui.dht11_screen_humi_chart, 10);
-					char buf[16];
-					sprintf(buf, "%d.%d C", my_sensor_data.temperature_integral, my_sensor_data.temperature_decimal);
-					lv_label_set_text(guider_ui.dht11_screen_temp_num, buf);
-					lv_chart_set_next_value(guider_ui.dht11_screen_temp_chart, temp_series, my_sensor_data.temperature_integral);
-					sprintf(buf, "%d.%d %%", my_sensor_data.humidity_integral, my_sensor_data.humidity_decimal);
-					lv_label_set_text(guider_ui.dht11_screen_humi_num, buf);
-					lv_chart_set_next_value(guider_ui.dht11_screen_humi_chart, humi_series, my_sensor_data.humidity_integral);
-				}else{
-					lv_label_set_text(guider_ui.dht11_screen_temp_num, "connecting");
-					lv_label_set_text(guider_ui.dht11_screen_humi_num, "connecting");
-				}
-				uint32_t seconds = HAL_GetTick() / 1000;
-				lv_label_set_text_fmt(guider_ui.dht11_screen_Timer, "Last Update: %ds ago", seconds);
+					{
+						char buf[16];
+
+						// Update Label_2 (Temperature value)
+						sprintf(buf, "%d.%d C", my_sensor_data.temperature_integral,my_sensor_data.temperature_decimal);
+						lv_label_set_text(guider_ui.dht11_screen_temp_num, buf);
+
+						// Update Label_3 (Humidity value)
+						sprintf(buf, "%d.%d %%", my_sensor_data.humidity_integral, my_sensor_data.humidity_decimal);
+						lv_label_set_text(guider_ui.dht11_screen_humi_num, buf);
+
+						// Push new points to the Chart
+
+						lv_chart_set_next_value(guider_ui.dht11_screen_temp_chart, temp_series, my_sensor_data.temperature_integral);
+						lv_chart_set_next_value(guider_ui.dht11_screen_humi_chart, humi_series, my_sensor_data.humidity_integral);
+
+						uint32_t seconds = HAL_GetTick() / 1000;
+						lv_label_set_text_fmt(guider_ui.dht11_screen_Timer, "Last Update: %ds ago", seconds);
+					}
 			}
 		}
-
 	  lv_timer_handler();
 	  HAL_Delay(5);
 	  lv_tick_inc(5);
@@ -200,16 +174,14 @@ void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
-  RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
 
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_LSI|RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-  RCC_OscInitStruct.LSIState = RCC_LSI_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
@@ -231,70 +203,6 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_RTC;
-  PeriphClkInit.RTCClockSelection = RCC_RTCCLKSOURCE_LSI;
-  if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
-  {
-    Error_Handler();
-  }
-}
-
-/**
-  * @brief RTC Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_RTC_Init(void)
-{
-
-  /* USER CODE BEGIN RTC_Init 0 */
-
-  /* USER CODE END RTC_Init 0 */
-
-  RTC_TimeTypeDef sTime = {0};
-  RTC_DateTypeDef DateToUpdate = {0};
-
-  /* USER CODE BEGIN RTC_Init 1 */
-
-  /* USER CODE END RTC_Init 1 */
-
-  /** Initialize RTC Only
-  */
-  hrtc.Instance = RTC;
-  hrtc.Init.AsynchPrediv = RTC_AUTO_1_SECOND;
-  hrtc.Init.OutPut = RTC_OUTPUTSOURCE_ALARM;
-  if (HAL_RTC_Init(&hrtc) != HAL_OK)
-  {
-    Error_Handler();
-  }
-
-  /* USER CODE BEGIN Check_RTC_BKUP */
-
-  /* USER CODE END Check_RTC_BKUP */
-
-  /** Initialize RTC and set the Time and Date
-  */
-  sTime.Hours = 0x17;
-  sTime.Minutes = 0x4;
-  sTime.Seconds = 0x0;
-
-  if (HAL_RTC_SetTime(&hrtc, &sTime, RTC_FORMAT_BCD) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  DateToUpdate.WeekDay = RTC_WEEKDAY_THURSDAY;
-  DateToUpdate.Month = RTC_MONTH_APRIL;
-  DateToUpdate.Date = 0x23;
-  DateToUpdate.Year = 0x26;
-
-  if (HAL_RTC_SetDate(&hrtc, &DateToUpdate, RTC_FORMAT_BCD) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN RTC_Init 2 */
-
-  /* USER CODE END RTC_Init 2 */
-
 }
 
 /**
