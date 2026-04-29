@@ -48,9 +48,9 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     Lib/Src/rw_rtc.c
     Lib/Src/lcd.c
     Lib/Src/rgb.c
-    # Lib/Src/ESP8266_HAL.c
-    # Lib/Src/UartRingbuffer_multi.c
-    Lib/Src/bsp_esp8266.c
+    Lib/Src/ESP8266_HAL.c
+    Lib/Src/UartRingbuffer_multi.c
+    # Lib/Src/bsp_esp8266.c
 )
 
 # Add include paths

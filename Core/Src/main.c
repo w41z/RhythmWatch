@@ -30,9 +30,9 @@
 // #include "rgb.h"
 #include "rw_rtc.h"     // self-defined RTC read/write functions
 #include "stm32f103xe.h"
-// #include "ESP8266_HAL.h"
-// #include "UartRingbuffer_multi.h"
-#include "bsp_esp8266.h"
+#include "ESP8266_HAL.h"
+#include "UartRingbuffer_multi.h"
+// #include "bsp_esp8266.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -101,11 +101,14 @@ int main(void)
   MX_USART1_UART_Init();
   MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
-  // ESP_Init();
-  ESP8266_Init();
-  LCD_INIT();
+  // ESP8266_Init();
+  // LCD_INIT();
   // Initial every pin to high -> LED goes off
   // RGB_Init();
+  HAL_UART_Transmit(&huart1, "Check\r\n",7, HAL_MAX_DELAY);
+
+  ESP_Init("ASUS_A8_2G", "236021081802");
+  HAL_Delay(8000);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -115,9 +118,11 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+    Wttr_Get_Weather();
+    HAL_Delay(30000);
     // Led_toggle_RGB();
-    RW_RTC_ButtonHandler();
-    RW_RTC_DisplayTime();
+    // RW_RTC_ButtonHandler();
+    // RW_RTC_DisplayTime();
     // Server_Program();
   /* USER CODE END 3 */
   }
