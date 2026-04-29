@@ -513,127 +513,153 @@ int Wttr_Get_Weather(void)
 
     char cmd[120];
     char request[250];
-    char raw[512] = {0};
-    char *body;
+    char raw[1024] = {0};
+    char *start;
 
-    // ====================== 通用函數：讀取並提取 HTTP Body ======================
-    auto void Get_Clean_Body(void)
-    {
-        int i = 0;
-        uint32_t timeout = HAL_GetTick() + 15000;
-
-        while (i < 511 && HAL_GetTick() < timeout)
-        {
-            if (IsDataAvailable(wifi_uart))
-            {
-                raw[i++] = Uart_read(wifi_uart);
-            }
-            else
-            {
-                HAL_Delay(10);
-            }
-        }
-        raw[i] = '\0';
-
-        // === 用 \r\n\r\n 搵 body 開始位置 ===
-        body = strstr(raw, "\r\n\r\n");
-        if (body)
-        {
-            body += 4;                    // 跳過 \r\n\r\n
-            strcpy(raw, body);            // 只保留 body
-        }
-        else
-        {
-            // 如果搵唔到，就用舊方法後備
-            body = strstr(raw, "+IPD,");
-            if (body) body = strchr(body, ':');
-            if (body) strcpy(raw, body + 1);
-        }
-
-        // 去頭尾多餘空格同換行
-        body = raw;
-        while (*body == ' ' || *body == '\r' || *body == '\n' || *body == '\t') body++;
-        strcpy(raw, body);
-
-        // 去尾多餘字符
-        for (int j = strlen(raw)-1; j >= 0; j--)
-        {
-            if (raw[j] == ' ' || raw[j] == '\r' || raw[j] == '\n') raw[j] = '\0';
-            else break;
-        }
-    };
-
-    // ====================== 1. Condition (%C) ======================
+    // ====================== 1. Condition ======================
     Uart_sendstring("Condition : ", pc_uart);
     Uart_flush(wifi_uart);
     Uart_sendstring("AT+CIPCLOSE\r\n", wifi_uart);
-    HAL_Delay(1000);
+    HAL_Delay(1500);
 
     sprintf(cmd, "AT+CIPSTART=\"TCP\",\"wttr.in\",80\r\n");
     Uart_sendstring(cmd, wifi_uart);
-    Wait_for_timeout("OK\r\n", wifi_uart, 15000);
-    HAL_Delay(1000);
+    Wait_for_timeout("OK\r\n", wifi_uart, 20000);
+    HAL_Delay(1200);
 
     sprintf(request, "GET /Hong+Kong?format=%%C HTTP/1.1\r\nHost: wttr.in\r\nConnection: close\r\n\r\n");
     int len = strlen(request);
-
     sprintf(cmd, "AT+CIPSEND=%d\r\n", len);
     Uart_sendstring(cmd, wifi_uart);
-    if (Wait_for_timeout(">", wifi_uart, 10000))
+
+    if (Wait_for_timeout(">", wifi_uart, 15000))
     {
         Uart_sendstring(request, wifi_uart);
-        Wait_for_timeout("SEND OK", wifi_uart, 8000);
-        Get_Clean_Body();
+        Wait_for_timeout("SEND OK", wifi_uart, 10000);
+
+        int i = 0;
+        uint32_t timeout = HAL_GetTick() + 15000;
+        while (i < 1023 && HAL_GetTick() < timeout)
+        {
+            if (IsDataAvailable(wifi_uart))
+                raw[i++] = Uart_read(wifi_uart);
+            else
+                HAL_Delay(8);
+        }
+        raw[i] = '\0';
+
+        start = strstr(raw, "+IPD,"); if (start) { start = strchr(start, ':'); if (start) strcpy(raw, start + 1); }
+        start = strstr(raw, "\r\n\r\n"); if (start) strcpy(raw, start + 4);
+        start = strstr(raw, "CLOSED"); if (start) *start = '\0';
+
+        start = raw;
+        while (*start == ' ' || *start == '\r' || *start == '\n' || *start == '\t') start++;
+        strcpy(raw, start);
+
+        for (int j = strlen(raw)-1; j >= 0; j--) {
+            if (raw[j] == ' ' || raw[j] == '\r' || raw[j] == '\n' || raw[j] == '\t') raw[j] = '\0';
+            else break;
+        }
         Uart_sendstring(raw, pc_uart);
     }
     Uart_sendstring("\r\n", pc_uart);
 
-    // ====================== 2. Temperature (%t) ======================
+    // ====================== 2. Temperature ======================
     Uart_sendstring("Temperature: ", pc_uart);
     Uart_flush(wifi_uart);
     Uart_sendstring("AT+CIPCLOSE\r\n", wifi_uart);
-    HAL_Delay(1000);
+    HAL_Delay(1500);
 
     sprintf(cmd, "AT+CIPSTART=\"TCP\",\"wttr.in\",80\r\n");
     Uart_sendstring(cmd, wifi_uart);
-    Wait_for_timeout("OK\r\n", wifi_uart, 15000);
-    HAL_Delay(1000);
+    Wait_for_timeout("OK\r\n", wifi_uart, 20000);
+    HAL_Delay(1200);
 
     sprintf(request, "GET /Hong+Kong?format=%%t HTTP/1.1\r\nHost: wttr.in\r\nConnection: close\r\n\r\n");
     len = strlen(request);
-
     sprintf(cmd, "AT+CIPSEND=%d\r\n", len);
     Uart_sendstring(cmd, wifi_uart);
-    if (Wait_for_timeout(">", wifi_uart, 10000))
+
+    if (Wait_for_timeout(">", wifi_uart, 15000))
     {
         Uart_sendstring(request, wifi_uart);
-        Wait_for_timeout("SEND OK", wifi_uart, 8000);
-        Get_Clean_Body();
+        Wait_for_timeout("SEND OK", wifi_uart, 10000);
+
+        int i = 0;
+        uint32_t timeout = HAL_GetTick() + 15000;
+        while (i < 1023 && HAL_GetTick() < timeout)
+        {
+            if (IsDataAvailable(wifi_uart))
+                raw[i++] = Uart_read(wifi_uart);
+            else
+                HAL_Delay(8);
+        }
+        raw[i] = '\0';
+
+        start = strstr(raw, "+IPD,"); if (start) { start = strchr(start, ':'); if (start) strcpy(raw, start + 1); }
+        start = strstr(raw, "\r\n\r\n"); if (start) strcpy(raw, start + 4);
+        // === 移除亂碼「掳C」並加上空格+C ===
+        start = strstr(raw, "°C"); if (start) strcpy(start, " degree Celsius");
+        start = strstr(raw, "CLOSED"); if (start) *start = '\0';
+
+        start = raw;
+        while (*start == ' ' || *start == '\r' || *start == '\n' || *start == '\t') start++;
+        strcpy(raw, start);
+
+        for (int j = strlen(raw)-1; j >= 0; j--) {
+            if (raw[j] == ' ' || raw[j] == '\r' || raw[j] == '\n' || raw[j] == '\t') raw[j] = '\0';
+            else break;
+        }
         Uart_sendstring(raw, pc_uart);
     }
     Uart_sendstring("\r\n", pc_uart);
 
-    // ====================== 3. Feels Like (%f) ======================
+    // ====================== 3. Feels Like ======================
     Uart_sendstring("Feels Like : ", pc_uart);
     Uart_flush(wifi_uart);
     Uart_sendstring("AT+CIPCLOSE\r\n", wifi_uart);
-    HAL_Delay(1000);
+    HAL_Delay(1500);
 
     sprintf(cmd, "AT+CIPSTART=\"TCP\",\"wttr.in\",80\r\n");
     Uart_sendstring(cmd, wifi_uart);
-    Wait_for_timeout("OK\r\n", wifi_uart, 15000);
-    HAL_Delay(1000);
+    Wait_for_timeout("OK\r\n", wifi_uart, 20000);
+    HAL_Delay(1200);
 
     sprintf(request, "GET /Hong+Kong?format=%%f HTTP/1.1\r\nHost: wttr.in\r\nConnection: close\r\n\r\n");
     len = strlen(request);
-
     sprintf(cmd, "AT+CIPSEND=%d\r\n", len);
     Uart_sendstring(cmd, wifi_uart);
-    if (Wait_for_timeout(">", wifi_uart, 10000))
+
+    if (Wait_for_timeout(">", wifi_uart, 15000))
     {
         Uart_sendstring(request, wifi_uart);
-        Wait_for_timeout("SEND OK", wifi_uart, 8000);
-        Get_Clean_Body();
+        Wait_for_timeout("SEND OK", wifi_uart, 10000);
+
+        int i = 0;
+        uint32_t timeout = HAL_GetTick() + 15000;
+        while (i < 1023 && HAL_GetTick() < timeout)
+        {
+            if (IsDataAvailable(wifi_uart))
+                raw[i++] = Uart_read(wifi_uart);
+            else
+                HAL_Delay(8);
+        }
+        raw[i] = '\0';
+
+        start = strstr(raw, "+IPD,"); if (start) { start = strchr(start, ':'); if (start) strcpy(raw, start + 1); }
+        start = strstr(raw, "\r\n\r\n"); if (start) strcpy(raw, start + 4);
+        // === 移除亂碼「掳C」並加上空格+C ===
+        start = strstr(raw, "°C"); if (start) strcpy(start, " degree Celsius");
+        start = strstr(raw, "CLOSED"); if (start) *start = '\0';
+
+        start = raw;
+        while (*start == ' ' || *start == '\r' || *start == '\n' || *start == '\t') start++;
+        strcpy(raw, start);
+
+        for (int j = strlen(raw)-1; j >= 0; j--) {
+            if (raw[j] == ' ' || raw[j] == '\r' || raw[j] == '\n' || raw[j] == '\t') raw[j] = '\0';
+            else break;
+        }
         Uart_sendstring(raw, pc_uart);
     }
     Uart_sendstring("\r\n", pc_uart);

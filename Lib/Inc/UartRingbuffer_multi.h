@@ -104,7 +104,7 @@
 #include "stm32f1xx_hal.h"
 
 /* change the size of the buffer */
-#define UART_BUFFER_SIZE 64
+#define UART_BUFFER_SIZE 512
 
 typedef struct
 {
