@@ -29,6 +29,7 @@
 #include "dht11.h"
 #include "gui_guider.h"
 #include "events_init.h"
+#include "dfplayer_music.h"
 
 #include "rtc_manager.h";
 
@@ -53,6 +54,8 @@
 
 TIM_HandleTypeDef htim1;
 
+UART_HandleTypeDef huart2;
+
 SRAM_HandleTypeDef hsram1;
 
 /* USER CODE BEGIN PV */
@@ -72,6 +75,7 @@ static void MX_GPIO_Init(void);
 static void MX_FSMC_Init(void);
 static void MX_TIM1_Init(void);
 static void MX_RTC_Init(void);
+static void MX_USART2_UART_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -112,11 +116,13 @@ int main(void)
   MX_FSMC_Init();
   MX_TIM1_Init();
   MX_RTC_Init();
+  MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
   LCD_INIT();
   HAL_TIM_Base_Start(&htim1);
 
   /* Initialize LVGL */
+  DFPlayer_Init();
   lv_init();
   lv_port_disp_init();
   lv_port_indev_init();
@@ -136,11 +142,13 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+
 	  static uint32_t timer = 0;
-	      if (HAL_GetTick() - timer >= 200) {
-	          RTC_Manager_Task(&guider_ui);
-	          timer = HAL_GetTick();
-	      }
+	  if (HAL_GetTick() - timer >= 200) {
+		  RTC_Manager_Task(&guider_ui);
+		  DFPlayer_Manager_Task(&guider_ui);
+		  timer = HAL_GetTick();
+	  }
 
 
 	  if (HAL_GetTick() - sensor_timer >= 2000)
@@ -344,6 +352,39 @@ static void MX_TIM1_Init(void)
 }
 
 /**
+  * @brief USART2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USART2_UART_Init(void)
+{
+
+  /* USER CODE BEGIN USART2_Init 0 */
+
+  /* USER CODE END USART2_Init 0 */
+
+  /* USER CODE BEGIN USART2_Init 1 */
+
+  /* USER CODE END USART2_Init 1 */
+  huart2.Instance = USART2;
+  huart2.Init.BaudRate = 9600;
+  huart2.Init.WordLength = UART_WORDLENGTH_8B;
+  huart2.Init.StopBits = UART_STOPBITS_1;
+  huart2.Init.Parity = UART_PARITY_NONE;
+  huart2.Init.Mode = UART_MODE_TX_RX;
+  huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart2.Init.OverSampling = UART_OVERSAMPLING_16;
+  if (HAL_UART_Init(&huart2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN USART2_Init 2 */
+
+  /* USER CODE END USART2_Init 2 */
+
+}
+
+/**
   * @brief GPIO Initialization Function
   * @param None
   * @retval None
@@ -362,7 +403,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOE, GPIO_PIN_2|GPIO_PIN_0|GPIO_PIN_1, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_2, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12|GPIO_PIN_13, GPIO_PIN_RESET);
@@ -380,8 +421,8 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : PA2 */
-  GPIO_InitStruct.Pin = GPIO_PIN_2;
+  /*Configure GPIO pin : PA7 */
+  GPIO_InitStruct.Pin = GPIO_PIN_7;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;

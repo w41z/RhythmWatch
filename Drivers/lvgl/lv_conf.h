@@ -181,14 +181,14 @@
     #define LV_DRAW_SW_SUPPORT_RGB565       1
     #define LV_DRAW_SW_SUPPORT_RGB565_SWAPPED       1
     #define LV_DRAW_SW_SUPPORT_RGB565A8     1
-    #define LV_DRAW_SW_SUPPORT_RGB888       1
-    #define LV_DRAW_SW_SUPPORT_XRGB8888     1
-    #define LV_DRAW_SW_SUPPORT_ARGB8888     1
-    #define LV_DRAW_SW_SUPPORT_ARGB8888_PREMULTIPLIED 1
-    #define LV_DRAW_SW_SUPPORT_L8           1
-    #define LV_DRAW_SW_SUPPORT_AL88         1
-    #define LV_DRAW_SW_SUPPORT_A8           1
-    #define LV_DRAW_SW_SUPPORT_I1           1
+    #define LV_DRAW_SW_SUPPORT_RGB888       0
+    #define LV_DRAW_SW_SUPPORT_XRGB8888     0
+    #define LV_DRAW_SW_SUPPORT_ARGB8888     0
+    #define LV_DRAW_SW_SUPPORT_ARGB8888_PREMULTIPLIED 0
+    #define LV_DRAW_SW_SUPPORT_L8           0
+    #define LV_DRAW_SW_SUPPORT_AL88         0
+    #define LV_DRAW_SW_SUPPORT_A8           0
+    #define LV_DRAW_SW_SUPPORT_I1           0
 
     /* The threshold of the luminance to consider a pixel as
      * active in indexed color format */
@@ -787,7 +787,7 @@
  * */
 #define LV_WIDGETS_HAS_DEFAULT_VALUE  1
 
-#define LV_USE_ANIMIMG    1
+#define LV_USE_ANIMIMG    0
 
 #define LV_USE_ARC        0
 
@@ -797,7 +797,7 @@
 
 #define LV_USE_BUTTON        1
 
-#define LV_USE_BUTTONMATRIX  1
+#define LV_USE_BUTTONMATRIX  0
 
 #define LV_USE_CALENDAR   0
 #if LV_USE_CALENDAR
@@ -814,7 +814,7 @@
     #define LV_USE_CALENDAR_CHINESE 0
 #endif  /*LV_USE_CALENDAR*/
 
-#define LV_USE_CANVAS     1
+#define LV_USE_CANVAS     0
 
 #define LV_USE_CHART      1
 
@@ -859,7 +859,7 @@
     #define LV_SPAN_SNIPPET_STACK_SIZE 64
 #endif
 
-#define LV_USE_SPINBOX    1
+#define LV_USE_SPINBOX    0
 
 #define LV_USE_SPINNER    0
 
@@ -869,14 +869,14 @@
 
 #define LV_USE_TABVIEW    0
 
-#define LV_USE_TEXTAREA   1   /**< Requires: lv_label */
+#define LV_USE_TEXTAREA   0   /**< Requires: lv_label */
 #if LV_USE_TEXTAREA != 0
     #define LV_TEXTAREA_DEF_PWD_SHOW_TIME 1500    /**< [ms] */
 #endif
 
-#define LV_USE_TILEVIEW   1
+#define LV_USE_TILEVIEW   0
 
-#define LV_USE_WIN        1
+#define LV_USE_WIN        0
 
 #define LV_USE_3DTEXTURE  0
 
@@ -1220,7 +1220,7 @@
 #define LV_USE_IMGFONT 0
 
 /** 1: Enable an observer pattern implementation */
-#define LV_USE_OBSERVER 1
+#define LV_USE_OBSERVER 0
 
 /** 1: Enable Pinyin input method
  *  - Requires: lv_keyboard */
@@ -1468,10 +1468,10 @@
 *======================*/
 
 /** Enable examples to be built with the library. */
-#define LV_BUILD_EXAMPLES 1
+#define LV_BUILD_EXAMPLES 0
 
 /** Build the demos */
-#define LV_BUILD_DEMOS 1
+#define LV_BUILD_DEMOS 0
 
 /*===================
  * DEMO USAGE
