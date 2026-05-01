@@ -202,29 +202,7 @@ extern UART_HandleTypeDef huart3;
 #define wifi_uart &huart3
 #define pc_uart &huart1
 
-
 char buffer[20];
-
-
-
-// 		content=\"width=device-width, initial-scale=1.0, user-scalable=no\">\n\
-// 		<title>LED CONTROL</title>\n<style>html { font-family: Helvetica; \
-// 		display: inline-block; margin: 0px auto; text-align: center;}\n\
-// 		body{margin-top: 50px;} h1 {color: #444444;margin: 50px auto 30px;}\
-// 		h3 {color: #444444;margin-bottom: 50px;}\n.button {display: block;\
-// 		width: 80px;background-color: #1abc9c;border: none;color: white;\
-// 		padding: 13px 30px;text-decoration: none;font-size: 25px;\
-// 		margin: 0px auto 35px;cursor: pointer;border-radius: 4px;}\n\
-// 		.button-on {background-color: #1abc9c;}\n.button-on:active \
-// 		{background-color: #16a085;}\n.button-off {background-color: #34495e;}\n\
-// 		.button-off:active {background-color: #2c3e50;}\np {font-size: 14px;color: #888;margin-bottom: 10px;}\n\
-// 		</style>\n</head>\n<body>\n<h1>ESP8266 LED CONTROL</h1>\n";
-
-// char *LED_ON = "<p>LED Status: ON</p><a class=\"button button-off\" href=\"/ledoff\">OFF</a>";
-// char *LED_OFF = "<p>LED1 Status: OFF</p><a class=\"button button-on\" href=\"/ledon\">ON</a>";
-// char *Terminate = "</body></html>";
-
-
 
 /*****************************************************************************************************************************************/
 
@@ -524,7 +502,7 @@ int Wttr_Get_Weather(void)
 
     sprintf(cmd, "AT+CIPSTART=\"TCP\",\"wttr.in\",80\r\n");
     Uart_sendstring(cmd, wifi_uart);
-    Wait_for_timeout("OK\r\n", wifi_uart, 20000);
+    Wait_for_timeout("OK\r\n", wifi_uart, 3000);
     HAL_Delay(1200);
 
     sprintf(request, "GET /Hong+Kong?format=%%C HTTP/1.1\r\nHost: wttr.in\r\nConnection: close\r\n\r\n");
@@ -532,13 +510,13 @@ int Wttr_Get_Weather(void)
     sprintf(cmd, "AT+CIPSEND=%d\r\n", len);
     Uart_sendstring(cmd, wifi_uart);
 
-    if (Wait_for_timeout(">", wifi_uart, 15000))
+    if (Wait_for_timeout(">", wifi_uart, 3000))
     {
         Uart_sendstring(request, wifi_uart);
-        Wait_for_timeout("SEND OK", wifi_uart, 10000);
+        Wait_for_timeout("SEND OK", wifi_uart, 3000);
 
         int i = 0;
-        uint32_t timeout = HAL_GetTick() + 15000;
+        uint32_t timeout = HAL_GetTick() + 3000;
         while (i < 1023 && HAL_GetTick() < timeout)
         {
             if (IsDataAvailable(wifi_uart))
@@ -572,7 +550,7 @@ int Wttr_Get_Weather(void)
 
     sprintf(cmd, "AT+CIPSTART=\"TCP\",\"wttr.in\",80\r\n");
     Uart_sendstring(cmd, wifi_uart);
-    Wait_for_timeout("OK\r\n", wifi_uart, 20000);
+    Wait_for_timeout("OK\r\n", wifi_uart, 3000);
     HAL_Delay(1200);
 
     sprintf(request, "GET /Hong+Kong?format=%%t HTTP/1.1\r\nHost: wttr.in\r\nConnection: close\r\n\r\n");
@@ -580,13 +558,13 @@ int Wttr_Get_Weather(void)
     sprintf(cmd, "AT+CIPSEND=%d\r\n", len);
     Uart_sendstring(cmd, wifi_uart);
 
-    if (Wait_for_timeout(">", wifi_uart, 15000))
+    if (Wait_for_timeout(">", wifi_uart, 3000))
     {
         Uart_sendstring(request, wifi_uart);
-        Wait_for_timeout("SEND OK", wifi_uart, 10000);
+        Wait_for_timeout("SEND OK", wifi_uart, 3000);
 
         int i = 0;
-        uint32_t timeout = HAL_GetTick() + 15000;
+        uint32_t timeout = HAL_GetTick() + 3000;
         while (i < 1023 && HAL_GetTick() < timeout)
         {
             if (IsDataAvailable(wifi_uart))
@@ -622,7 +600,7 @@ int Wttr_Get_Weather(void)
 
     sprintf(cmd, "AT+CIPSTART=\"TCP\",\"wttr.in\",80\r\n");
     Uart_sendstring(cmd, wifi_uart);
-    Wait_for_timeout("OK\r\n", wifi_uart, 20000);
+    Wait_for_timeout("OK\r\n", wifi_uart, 3000);
     HAL_Delay(1200);
 
     sprintf(request, "GET /Hong+Kong?format=%%f HTTP/1.1\r\nHost: wttr.in\r\nConnection: close\r\n\r\n");
@@ -630,13 +608,13 @@ int Wttr_Get_Weather(void)
     sprintf(cmd, "AT+CIPSEND=%d\r\n", len);
     Uart_sendstring(cmd, wifi_uart);
 
-    if (Wait_for_timeout(">", wifi_uart, 15000))
+    if (Wait_for_timeout(">", wifi_uart, 3000))
     {
         Uart_sendstring(request, wifi_uart);
-        Wait_for_timeout("SEND OK", wifi_uart, 10000);
+        Wait_for_timeout("SEND OK", wifi_uart, 3000);
 
         int i = 0;
-        uint32_t timeout = HAL_GetTick() + 15000;
+        uint32_t timeout = HAL_GetTick() + 3000;
         while (i < 1023 && HAL_GetTick() < timeout)
         {
             if (IsDataAvailable(wifi_uart))
