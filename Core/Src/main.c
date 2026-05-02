@@ -105,9 +105,9 @@ int main(void)
   // LCD_INIT();
   // Initial every pin to high -> LED goes off
   // RGB_Init();
-  HAL_UART_Transmit(&huart1, "Check\r\n",7, HAL_MAX_DELAY);
+  // HAL_UART_Transmit(&huart1, "Check\r\n",7, HAL_MAX_DELAY);
 
-  ESP_Init("ASUS_A8_2G", "236021081802");
+  ESP_Init("Simon", "88888888");
   HAL_Delay(8000);
   /* USER CODE END 2 */
 
