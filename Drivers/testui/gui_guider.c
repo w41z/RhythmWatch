@@ -75,6 +75,8 @@ void init_scr_del_flag(lv_ui *ui)
     ui->home_del = true;
     ui->rtc_screen_del = true;
     ui->dht11_screen_del = true;
+    ui->music_screen_del = true;
+    ui->weather_screen_del = true;
 }
 
 void setup_bottom_layer(void)

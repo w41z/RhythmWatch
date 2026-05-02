@@ -21,6 +21,8 @@ void events_init(lv_ui *ui);
 void events_init_home(lv_ui *ui);
 void events_init_rtc_screen(lv_ui *ui);
 void events_init_dht11_screen(lv_ui *ui);
+void events_init_music_screen(lv_ui *ui);
+void events_init_weather_screen(lv_ui *ui);
 
 #ifdef __cplusplus
 }

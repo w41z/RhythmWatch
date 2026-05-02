@@ -104,6 +104,7 @@ void RTC_Manager_Task(lv_ui *ui) {
     // 1. DETECT SCREEN CHANGES (The Bulletproof Linker)
     // If GUI Guider made a new screen pointer, it means we just entered the page!
     if (ui->rtc_screen != NULL && ui->rtc_screen != last_known_rtc_screen) {
+    	if(lv_scr_act() != ui->rtc_screen) return;
 
         // Link the buttons to our C logic IMMEDIATELY
         lv_obj_add_event_cb(ui->rtc_screen_modebtn, rtc_button_handler, LV_EVENT_ALL, ui);
