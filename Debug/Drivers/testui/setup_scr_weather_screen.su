@@ -1,0 +1,2 @@
+../Drivers/lvgl/src/core/lv_obj_style.h:276:20:lv_obj_set_style_pad_all	24	static
+../Drivers/testui/setup_scr_weather_screen.c:19:6:setup_scr_weather_screen	96	static

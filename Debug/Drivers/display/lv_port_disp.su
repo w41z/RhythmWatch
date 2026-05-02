@@ -1,0 +1,5 @@
+../Drivers/display/lv_port_disp.c:55:6:lv_port_disp_init	24	static
+../Drivers/display/lv_port_disp.c:75:13:disp_init	4	static
+../Drivers/display/lv_port_disp.c:84:6:disp_enable_update	4	static
+../Drivers/display/lv_port_disp.c:91:6:disp_disable_update	4	static
+../Drivers/display/lv_port_disp.c:100:13:disp_flush	48	static

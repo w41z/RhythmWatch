@@ -1,0 +1,14 @@
+../Drivers/testui/events_init.c:19:13:home_WEATHER_event_handler	48	static
+../Drivers/testui/events_init.c:33:13:home_DHT11_event_handler	48	static
+../Drivers/testui/events_init.c:47:13:home_RTC_event_handler	48	static
+../Drivers/testui/events_init.c:61:13:home_MUSIC_event_handler	48	static
+../Drivers/testui/events_init.c:75:6:events_init_home	16	static
+../Drivers/testui/events_init.c:83:13:rtc_screen_btn_1_event_handler	48	static
+../Drivers/testui/events_init.c:97:6:events_init_rtc_screen	16	static
+../Drivers/testui/events_init.c:102:13:dht11_screen_btn_1_event_handler	48	static
+../Drivers/testui/events_init.c:116:6:events_init_dht11_screen	16	static
+../Drivers/testui/events_init.c:121:13:music_screen_btn_1_event_handler	48	static
+../Drivers/testui/events_init.c:135:6:events_init_music_screen	16	static
+../Drivers/testui/events_init.c:140:13:weather_screen_btn_1_event_handler	48	static
+../Drivers/testui/events_init.c:154:6:events_init_weather_screen	16	static
+../Drivers/testui/events_init.c:160:6:events_init	16	static

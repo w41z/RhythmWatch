@@ -1,0 +1,4 @@
+../Drivers/testui/widgets_init.c:17:30:kb_event_cb	24	static
+../Drivers/testui/widgets_init.c:25:30:ta_event_cb	16	static
+../Drivers/testui/widgets_init.c:47:6:clock_count	24	static
+../Drivers/testui/widgets_init.c:68:6:digital_clock_count	24	static

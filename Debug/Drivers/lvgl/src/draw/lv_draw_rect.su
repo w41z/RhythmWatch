@@ -1,0 +1,12 @@
+../Drivers/lvgl/src/draw/../misc/../font/../draw/../misc/../stdlib/lv_string.h:73:20:lv_memzero	16	static
+../Drivers/lvgl/src/draw/lv_draw_rect.c:41:28:lv_draw_rect_dsc_init	24	static
+../Drivers/lvgl/src/draw/lv_draw_rect.c:61:6:lv_draw_fill_dsc_init	16	static
+../Drivers/lvgl/src/draw/lv_draw_rect.c:68:22:lv_draw_task_get_fill_dsc	16	static
+../Drivers/lvgl/src/draw/lv_draw_rect.c:73:6:lv_draw_fill	128	static
+../Drivers/lvgl/src/draw/lv_draw_rect.c:96:6:lv_draw_border_dsc_init	16	static
+../Drivers/lvgl/src/draw/lv_draw_rect.c:104:24:lv_draw_task_get_border_dsc	16	static
+../Drivers/lvgl/src/draw/lv_draw_rect.c:109:6:lv_draw_border	96	static
+../Drivers/lvgl/src/draw/lv_draw_rect.c:132:6:lv_draw_box_shadow_dsc_init	16	static
+../Drivers/lvgl/src/draw/lv_draw_rect.c:139:28:lv_draw_task_get_box_shadow_dsc	16	static
+../Drivers/lvgl/src/draw/lv_draw_rect.c:144:6:lv_draw_box_shadow	32	static
+../Drivers/lvgl/src/draw/lv_draw_rect.c:157:6:lv_draw_rect	352	static

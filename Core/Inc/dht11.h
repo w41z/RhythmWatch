@@ -4,7 +4,7 @@
 #include "main.h"
 
 #define DHT11_PORT GPIOA
-#define DHT11_PIN  GPIO_PIN_2
+#define DHT11_PIN  GPIO_PIN_7
 
 /* DHT11 sensor data structure */
 typedef struct {

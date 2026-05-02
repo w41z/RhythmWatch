@@ -1,0 +1,9 @@
+../Drivers/lvgl/src/core/lv_obj_style.h:276:20:lv_obj_set_style_pad_all	24	static
+../Core/Src/dfplayer_music.c:37:13:dfplayer_send_command	40	static
+../Core/Src/dfplayer_music.c:64:12:dfplayer_is_actually_playing	8	static
+../Core/Src/dfplayer_music.c:70:13:dfplayer_play_track	24	static
+../Core/Src/dfplayer_music.c:81:13:dfplayer_button_handler	32	static
+../Core/Src/dfplayer_music.c:184:13:music_dropdown_handler	32	static
+../Core/Src/dfplayer_music.c:202:13:music_screen_delete_handler	24	static
+../Core/Src/dfplayer_music.c:223:6:DFPlayer_Init	24	static
+../Core/Src/dfplayer_music.c:247:6:DFPlayer_Manager_Task	136	static
