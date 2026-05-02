@@ -31,7 +31,7 @@
 #include "events_init.h"
 #include "dfplayer_music.h"
 
-#include "rtc_manager.h";
+#include "rtc_manager.h"
 
 /* USER CODE END Includes */
 
@@ -153,9 +153,8 @@ int main(void)
     /* USER CODE BEGIN 3 */
 
 	  static uint32_t timer = 0;
-	  if (HAL_GetTick() - timer >= 200) {
+	  if (HAL_GetTick() - timer >= 1000) {
 		  RTC_Manager_Task(&guider_ui);
-		  DFPlayer_Manager_Task(&guider_ui);
 		  timer = HAL_GetTick();
 	  }
 
@@ -200,6 +199,8 @@ int main(void)
 				lv_label_set_text_fmt(guider_ui.dht11_screen_Timer, "Last Update: %ds ago", seconds);
 			}
 		}
+
+    DFPlayer_Manager_Task(&guider_ui);
 
 	  lv_timer_handler();
 	  HAL_Delay(5);
