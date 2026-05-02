@@ -10,6 +10,7 @@
 #include "events_init.h"
 #include <stdio.h>
 #include "lvgl.h"
+#include "weather_manager.h"
 
 #if LV_USE_GUIDER_SIMULATOR && LV_USE_FREEMASTER
 #include "freemaster_client.h"
@@ -151,9 +152,25 @@ static void weather_screen_btn_1_event_handler (lv_event_t *e)
     }
 }
 
+static void weather_screen_fetch_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_PRESSED:
+    {
+        // Only set the flag; actual fetch happens in Weather_Manager_Task
+        Weather_Manager_RequestFetch();
+        break;
+    }
+    default:
+        break;
+    }
+}
+
 void events_init_weather_screen (lv_ui *ui)
 {
     lv_obj_add_event_cb(ui->weather_screen_btn_1, weather_screen_btn_1_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->weather_screen_fetch, weather_screen_fetch_event_handler, LV_EVENT_ALL, ui);
 }
 
 

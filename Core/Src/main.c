@@ -30,7 +30,7 @@
 #include "gui_guider.h"
 #include "events_init.h"
 #include "dfplayer_music.h"
-
+#include "weather_manager.h"
 #include "rtc_manager.h"
 
 /* USER CODE END Includes */
@@ -141,6 +141,9 @@ int main(void)
   temp_series = lv_chart_add_series(guider_ui.dht11_screen_temp_chart, lv_palette_main(LV_PALETTE_RED), LV_CHART_AXIS_PRIMARY_Y);
   humi_series = lv_chart_add_series(guider_ui.dht11_screen_humi_chart, lv_palette_main(LV_PALETTE_BLUE), LV_CHART_AXIS_PRIMARY_Y);
 
+  // Initialize weather manager with WiFi credentials
+  Weather_Manager_SetCredentials("Simon", "88888888");
+  Weather_Manager_SetLocation("Hong+Kong");
 
   /* USER CODE END 2 */
 
@@ -158,6 +161,8 @@ int main(void)
 		  timer = HAL_GetTick();
 	  }
 
+    // Call weather manager task (non-blocking, only triggers on request)
+    Weather_Manager_Task(&guider_ui);
 
 	  if (HAL_GetTick() - sensor_timer >= 2000)
 		{

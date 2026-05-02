@@ -49,10 +49,10 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     Core/Src/lcd.c
     Core/Src/rtc_manager.c
     Core/Src/dfplayer_music.c
-    # Core/Src/weather_manager.c
+    Core/Src/weather_manager.c
     # Lib sources
-    # Lib/Src/ESP8266_HAL.c
-    # Lib/Src/UartRingbuffer_multi.c
+    Lib/Src/ESP8266_HAL.c
+    Lib/Src/UartRingbuffer_multi.c
     # LVGL display and input port implementations
     Drivers/display/lv_port_disp.c
     Drivers/display/lv_port_indev.c
