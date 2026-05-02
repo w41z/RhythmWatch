@@ -34,19 +34,21 @@ int ESP_Init (char *SSID, char *PASSWD)
 
 	/********* AT **********/
 	Uart_sendstring("AT\r\n", wifi_uart);
-
+	Uart_sendstring("Wait for AT response\r\n", pc_uart);
 	while(!(Wait_for("AT\r\r\n\r\nOK\r\n", wifi_uart)));
 	Uart_sendstring("AT---->OK\n\n", pc_uart);
 
 
 	/********* AT+CWMODE=1 **********/
 	Uart_sendstring("AT+CWMODE=1\r\n", wifi_uart);
+	Uart_sendstring("Wait for CWMODE response\r\n", pc_uart);
 	while (!(Wait_for("AT+CWMODE=1\r\r\n\r\nOK\r\n", wifi_uart)));
 	Uart_sendstring("CW MODE---->1\n\n", pc_uart);
 
 
 	/********* AT+CWJAP="SSID","PASSWD" **********/
 	Uart_sendstring("connecting... to the provided AP\n", pc_uart);
+	Uart_sendstring("Wait for CWJAP response\r\n", pc_uart);
 	sprintf (data, "AT+CWJAP=\"%s\",\"%s\"\r\n", SSID, PASSWD);
 	Uart_sendstring(data, wifi_uart);
 	while (!(Wait_for("OK\r\n", wifi_uart)));
@@ -56,6 +58,7 @@ int ESP_Init (char *SSID, char *PASSWD)
 
 	/********* AT+CIFSR **********/
 	Uart_sendstring("AT+CIFSR\r\n", wifi_uart);
+	Uart_sendstring("Wait for CIFSR response\r\n", pc_uart);
 	while (!(Wait_for("OK\r\n", wifi_uart)));
 	Uart_sendstring("AT+CIFSR---->OK\n\n", pc_uart);
 
