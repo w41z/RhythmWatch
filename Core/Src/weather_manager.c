@@ -1,6 +1,5 @@
 #include "weather_manager.h"
-#include "ESP8266_HAL.h"
-#include "UartRingbuffer_multi.h"
+#include "stm32f1xx_hal.h"
 
 static volatile bool weather_fetch_requested = false;
 static volatile bool wifi_connected = false;
@@ -190,7 +189,7 @@ void Weather_Manager_Task(lv_ui *ui)
 
     if (!weather_fetch_requested)
         return;
-
+    
     weather_fetch_requested = false;
 
     if (lv_scr_act() != ui->weather_screen)
@@ -200,14 +199,13 @@ void Weather_Manager_Task(lv_ui *ui)
 
     if (!wifi_connected)
     {
-        while (ESP_Init(weather_ssid, weather_passwd) != 1) {
-            weather_set_label(ui->weather_screen_s_stat, "WiFi connection failed, retrying...");
-            HAL_Delay(2000);
-        }
-        weather_set_label(ui->weather_screen_s_stat, "WiFi connected");
-        weather_set_label(ui->weather_screen_s_sta, weather_ssid);
+        ESP_Init(weather_ssid, weather_passwd);
+        HAL_Delay(2000);
         wifi_connected = true;
     }
+
+    weather_set_label(ui->weather_screen_s_stat, "WiFi connected");
+    weather_set_label(ui->weather_screen_s_sta, weather_ssid);
 
     weather_set_label(ui->weather_screen_s_stat, "Fetching condition...");
     if (weather_fetch_wttr_value("%C", value, sizeof(value)))
