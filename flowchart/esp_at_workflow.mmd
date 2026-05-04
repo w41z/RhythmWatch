@@ -1,0 +1,21 @@
+flowchart TD
+A[Weather fetch requested] --> B[Close old TCP connection<br/>AT+CIPCLOSE]
+B --> C[Open TCP to wttr.in:80<br/>AT+CIPSTART]
+C --> D{Connection OK?}
+D -- No --> Z[Show fetch failed]
+D -- Yes --> E[Build HTTP GET request<br/>location + format]
+E --> F[Signal payload length<br/>AT+CIPSEND=len]
+F --> G{Prompt received > ?}
+G -- No --> Z
+G -- Yes --> H[Send HTTP request]
+
+H --> I[Wait SEND OK and read UART data]
+I --> J[Parse +IPD payload]
+J --> K[Strip HTTP headers and CLOSED]
+K --> L[Trim text result]
+L --> M[Update LVGL label]
+
+M --> N{More fields?}
+N -- Yes --> E2[Next format: C, then t, then f]
+E2 --> E
+N -- No --> O[Set status Done]
