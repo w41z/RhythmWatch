@@ -1,0 +1,23 @@
+%%{init: {'themeVariables': {'lineColor': '#000000'}}}%%
+flowchart TD
+    A["Weather_Manager_Task(ui)"] --> B{Page Status Check pass?}
+
+    B -->|No| C[return]
+    B -->|Yes| D{First time Connect to Wifi?}
+
+    D -->|Yes| E[Initialize ESP8266]
+    D -->|No| F{Fetch * data success?}
+
+    E --> F
+
+    F -->|Yes| G[display data]
+    F -->|No| H[display fetch failed]
+
+    style A fill:#1e90ff,stroke:#fff,color:#fff
+    style B fill:#ffcc00,stroke:#333,color:#000
+    style D fill:#ffcc00,stroke:#333,color:#000
+    style F fill:#ffcc00,stroke:#333,color:#000
+    style C fill:#90ee90,stroke:#333,color:#000
+    style E fill:#90ee90,stroke:#333,color:#000
+    style G fill:#90ee90,stroke:#333,color:#000
+    style H fill:#ff6666,stroke:#333,color:#000
