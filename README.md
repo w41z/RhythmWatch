@@ -17,7 +17,7 @@ link: [https://canva.link/8xa20uo94wrfnxg](https://canva.link/8xa20uo94wrfnxg)
 | **STM32 HAL** | Low-level peripheral abstraction (GPIO, UART, RTC, DMA, timers) |
 | **FSMC** | Drives the LCD display over a 16-bit parallel bus |
 | **LVGL** | Renders the touchscreen GUI |
-| **ESP8266** (UART1 @ 115200 baud) | Wi-Fi module for fetching weather data via AT commands |
+| **ESP8266** (UART3 @ 115200 baud) | Wi-Fi module for fetching weather data via AT commands |
 | **DFPlayer Mini** (UART2 @ 9600 baud) | MP3 audio playback module |
 | **DHT11** | Temperature & humidity sensor |
 | **RTC** (LSE-driven) | Hardware real-time clock; persists across resets |
@@ -112,9 +112,9 @@ main()
 
 | UART | Baud | Purpose |
 |---|---|---|
-| USART1 | 115200 | ESP8266 Wi-Fi (AT commands) |
+| USART1 | 115200 | Debug / DMA-backed ring-buffer RX |
 | USART2 | 9600 | DFPlayer Mini (MP3 commands) |
-| USART3 | 115200 | Debug / DMA-backed ring-buffer RX |
+| USART3 | 115200 | ESP8266 Wi-Fi (AT commands) |
 
 ---
 
