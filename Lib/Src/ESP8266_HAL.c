@@ -11,7 +11,7 @@ char buffer[20];
 
 /*****************************************************************************************************************************************/
 
-int ESP_Init (char *SSID, char *PASSWD)
+void ESP_Init (char *SSID, char *PASSWD)
 {
 	char data[80];
 	//HAL_UART_Transmit(&huart2, "Check\r\n",7, HAL_MAX_DELAY);
@@ -63,8 +63,6 @@ int ESP_Init (char *SSID, char *PASSWD)
 	Uart_sendstring("AT+CIFSR---->OK\n\n", pc_uart);
 
 	Uart_sendstring("Now Connect to the IP ADDRESS\n\n", pc_uart);
-
-    return 1;
 }
 
 // int Wttr_Get_Weather(void)
