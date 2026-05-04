@@ -259,14 +259,13 @@ void DFPlayer_Init(void)
 // =========================================================
 void DFPlayer_Manager_Task(lv_ui *ui)
 {
-	if (ui->music_screen_ddlist_1 && lv_obj_is_valid(ui->music_screen_ddlist_1)) {
+    if (ui->music_screen_ddlist_1 && lv_obj_is_valid(ui->music_screen_ddlist_1)) {
 		lv_obj_t * list = lv_dropdown_get_list(ui->music_screen_ddlist_1);
 		if (lv_obj_is_valid(list)) {
 			lv_obj_set_style_pad_row(list, 40, LV_STATE_DEFAULT);
 			lv_obj_set_style_pad_all(list, 10, LV_STATE_DEFAULT);
 		}
 	}
-
 	// 1. Link UI elements when entering screen
 	if (ui->music_screen != NULL && ui->music_screen != last_known_music_screen && lv_obj_is_valid(ui->music_screen)) {
 		if (ui->music_screen_ddlist_1 && lv_obj_is_valid(ui->music_screen_ddlist_1)) {

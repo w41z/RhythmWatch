@@ -138,11 +138,9 @@ int main(void)
 
   setup_ui(&guider_ui);
   events_init(&guider_ui);
-  temp_series = lv_chart_add_series(guider_ui.dht11_screen_temp_chart, lv_palette_main(LV_PALETTE_RED), LV_CHART_AXIS_PRIMARY_Y);
-  humi_series = lv_chart_add_series(guider_ui.dht11_screen_humi_chart, lv_palette_main(LV_PALETTE_BLUE), LV_CHART_AXIS_PRIMARY_Y);
 
   // Initialize weather manager with WiFi credentials
-  Weather_Manager_SetCredentials("Simon", "88888888");
+  Weather_Manager_SetCredentials("mandycck", "mc329715");
   Weather_Manager_SetLocation("Hong+Kong");
 
   /* USER CODE END 2 */
@@ -169,7 +167,9 @@ int main(void)
 			sensor_timer = HAL_GetTick();
 
 
-			if (lv_scr_act() == guider_ui.dht11_screen)
+			if (lv_scr_act() == guider_ui.dht11_screen &&
+			    guider_ui.dht11_screen_temp_chart && lv_obj_is_valid(guider_ui.dht11_screen_temp_chart) &&
+			    guider_ui.dht11_screen_humi_chart && lv_obj_is_valid(guider_ui.dht11_screen_humi_chart))
 			{
 				// 2. Refresh the series pointers.
 				// If the screen was deleted/recreated, we must re-add the series.
@@ -191,25 +191,39 @@ int main(void)
 					lv_chart_set_point_count(guider_ui.dht11_screen_humi_chart, 10);
 					char buf[16];
 					sprintf(buf, "%d.%d C", my_sensor_data.temperature_integral, my_sensor_data.temperature_decimal);
-					lv_label_set_text(guider_ui.dht11_screen_temp_num, buf);
-					lv_chart_set_next_value(guider_ui.dht11_screen_temp_chart, temp_series, my_sensor_data.temperature_integral);
+					if (guider_ui.dht11_screen_temp_num && lv_obj_is_valid(guider_ui.dht11_screen_temp_num)) {
+						lv_label_set_text(guider_ui.dht11_screen_temp_num, buf);
+					}
+					if (temp_series) {
+						lv_chart_set_next_value(guider_ui.dht11_screen_temp_chart, temp_series, my_sensor_data.temperature_integral);
+					}
 					sprintf(buf, "%d.%d %%", my_sensor_data.humidity_integral, my_sensor_data.humidity_decimal);
-					lv_label_set_text(guider_ui.dht11_screen_humi_num, buf);
-					lv_chart_set_next_value(guider_ui.dht11_screen_humi_chart, humi_series, my_sensor_data.humidity_integral);
+					if (guider_ui.dht11_screen_humi_num && lv_obj_is_valid(guider_ui.dht11_screen_humi_num)) {
+						lv_label_set_text(guider_ui.dht11_screen_humi_num, buf);
+					}
+					if (humi_series) {
+						lv_chart_set_next_value(guider_ui.dht11_screen_humi_chart, humi_series, my_sensor_data.humidity_integral);
+					}
 				}else{
-					lv_label_set_text(guider_ui.dht11_screen_temp_num, "connecting");
-					lv_label_set_text(guider_ui.dht11_screen_humi_num, "connecting");
+					if (guider_ui.dht11_screen_temp_num && lv_obj_is_valid(guider_ui.dht11_screen_temp_num)) {
+						lv_label_set_text(guider_ui.dht11_screen_temp_num, "connecting");
+					}
+					if (guider_ui.dht11_screen_humi_num && lv_obj_is_valid(guider_ui.dht11_screen_humi_num)) {
+						lv_label_set_text(guider_ui.dht11_screen_humi_num, "connecting");
+					}
 				}
 				uint32_t seconds = HAL_GetTick() / 1000;
-				lv_label_set_text_fmt(guider_ui.dht11_screen_Timer, "Last Update: %ds ago", seconds);
+				if (guider_ui.dht11_screen_Timer && lv_obj_is_valid(guider_ui.dht11_screen_Timer)) {
+					lv_label_set_text_fmt(guider_ui.dht11_screen_Timer, "Last Update: %ds ago", seconds);
+				}
 			}
 		}
 
     DFPlayer_Manager_Task(&guider_ui);
 
+	  lv_tick_inc(5);
 	  lv_timer_handler();
 	  HAL_Delay(5);
-	  lv_tick_inc(5);
 
   }
   /* USER CODE END 3 */
