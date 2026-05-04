@@ -160,6 +160,15 @@ static void weather_screen_fetch_event_handler (lv_event_t *e)
     {
         // Only set the flag; actual fetch happens in Weather_Manager_Task
         Weather_Manager_RequestFetch();
+        
+        // Update UI labels to show fetching status
+        lv_ui *ui = (lv_ui *)lv_event_get_user_data(e);
+        if (ui) {
+            lv_label_set_text(ui->weather_screen_s_stat, "Starting...");
+            lv_label_set_text(ui->weather_screen_w_con, "connecting...");
+            lv_label_set_text(ui->weather_screen_w_rt, "connecting...");
+            lv_label_set_text(ui->weather_screen_w_at, "connecting...");
+        }
         break;
     }
     default:

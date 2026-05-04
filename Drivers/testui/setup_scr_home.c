@@ -49,7 +49,7 @@ void setup_scr_home(lv_ui *ui)
 
     //Write codes home_WEATHER
     ui->home_WEATHER = lv_button_create(ui->home_cont_1);
-    lv_obj_set_pos(ui->home_WEATHER, 115, 248);
+    lv_obj_set_pos(ui->home_WEATHER, 114, 248);
     lv_obj_set_size(ui->home_WEATHER, 100, 50);
     ui->home_WEATHER_label = lv_label_create(ui->home_WEATHER);
     lv_label_set_text(ui->home_WEATHER_label, "Weather");
