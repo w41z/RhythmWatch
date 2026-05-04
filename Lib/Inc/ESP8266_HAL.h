@@ -14,7 +14,7 @@
 #include "stdio.h"
 #include "string.h"
 
-int ESP_Init (char *SSID, char *PASSWD);
+void ESP_Init (char *SSID, char *PASSWD);
 // int Wttr_Get_Weather(void);
 
 #endif /* INC_ESP8266_HAL_H_ */
