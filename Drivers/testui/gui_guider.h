@@ -22,23 +22,25 @@ typedef struct
 	lv_obj_t *home;
 	bool home_del;
 	lv_obj_t *home_cont_1;
-	lv_obj_t *home_WEATHER;
-	lv_obj_t *home_WEATHER_label;
-	lv_obj_t *home_DHT11;
-	lv_obj_t *home_DHT11_label;
+	lv_obj_t *home_label_4;
+	lv_obj_t *home_label_5;
+	lv_obj_t *home_label_1;
 	lv_obj_t *home_RTC;
 	lv_obj_t *home_RTC_label;
-	lv_obj_t *home_label_1;
+	lv_obj_t *home_DHT11;
+	lv_obj_t *home_DHT11_label;
 	lv_obj_t *home_MUSIC;
 	lv_obj_t *home_MUSIC_label;
+	lv_obj_t *home_WEATHER;
+	lv_obj_t *home_WEATHER_label;
+	lv_obj_t *home_label_2;
+	lv_obj_t *home_label_3;
 	lv_obj_t *rtc_screen;
 	bool rtc_screen_del;
 	lv_obj_t *rtc_screen_RTC;
 	lv_obj_t *rtc_screen_label_rtc_date;
 	lv_obj_t *rtc_screen_label_rtc_time;
 	lv_obj_t *rtc_screen_label_rtc_day;
-	lv_obj_t *rtc_screen_btn_1;
-	lv_obj_t *rtc_screen_btn_1_label;
 	lv_obj_t *rtc_screen_modebtn;
 	lv_obj_t *rtc_screen_modebtn_label;
 	lv_obj_t *rtc_screen_mode_label;
@@ -48,6 +50,8 @@ typedef struct
 	lv_obj_t *rtc_screen_minusbtn_label;
 	lv_obj_t *rtc_screen_addbtn;
 	lv_obj_t *rtc_screen_addbtn_label;
+	lv_obj_t *rtc_screen_btn_1;
+	lv_obj_t *rtc_screen_btn_1_label;
 	lv_obj_t *dht11_screen;
 	bool dht11_screen_del;
 	lv_obj_t *dht11_screen_temp_chart;
@@ -57,17 +61,15 @@ typedef struct
 	lv_obj_t *dht11_screen_TempHumiDisplay;
 	lv_obj_t *dht11_screen_temp_num;
 	lv_obj_t *dht11_screen_humi_num;
-	lv_obj_t *dht11_screen_btn_1;
-	lv_obj_t *dht11_screen_btn_1_label;
 	lv_obj_t *dht11_screen_label_1;
 	lv_obj_t *dht11_screen_label_2;
 	lv_obj_t *dht11_screen_label_3;
+	lv_obj_t *dht11_screen_btn_1;
+	lv_obj_t *dht11_screen_btn_1_label;
 	lv_obj_t *music_screen;
 	bool music_screen_del;
 	lv_obj_t *music_screen_song_name;
 	lv_obj_t *music_screen_status;
-	lv_obj_t *music_screen_btn_1;
-	lv_obj_t *music_screen_btn_1_label;
 	lv_obj_t *music_screen_ddlist_1;
 	lv_obj_t *music_screen_label_1;
 	lv_obj_t *music_screen_playpulsebtn;
@@ -83,11 +85,11 @@ typedef struct
 	lv_obj_t *music_screen_volume;
 	lv_obj_t *music_screen_randombtn;
 	lv_obj_t *music_screen_randombtn_label;
+	lv_obj_t *music_screen_btn_1;
+	lv_obj_t *music_screen_btn_1_label;
 	lv_obj_t *weather_screen;
 	bool weather_screen_del;
 	lv_obj_t *weather_screen_Weather_Title;
-	lv_obj_t *weather_screen_btn_1;
-	lv_obj_t *weather_screen_btn_1_label;
 	lv_obj_t *weather_screen_condition;
 	lv_obj_t *weather_screen_real_t;
 	lv_obj_t *weather_screen_apparent_t;
@@ -102,6 +104,8 @@ typedef struct
 	lv_obj_t *weather_screen_stat;
 	lv_obj_t *weather_screen_s_sta;
 	lv_obj_t *weather_screen_s_stat;
+	lv_obj_t *weather_screen_btn_1;
+	lv_obj_t *weather_screen_btn_1_label;
 }lv_ui;
 
 typedef void (*ui_setup_scr_t)(lv_ui * ui);
@@ -134,11 +138,17 @@ void setup_scr_rtc_screen(lv_ui *ui);
 void setup_scr_dht11_screen(lv_ui *ui);
 void setup_scr_music_screen(lv_ui *ui);
 void setup_scr_weather_screen(lv_ui *ui);
+LV_IMAGE_DECLARE(_rtc_RGB565A8_87x80);
+LV_IMAGE_DECLARE(_humi_temp_RGB565A8_90x80);
+LV_IMAGE_DECLARE(_music_RGB565A8_80x80);
+LV_IMAGE_DECLARE(_weather_RGB565A8_80x80);
+LV_IMAGE_DECLARE(_homebtn_RGB565A8_45x45);
 
-LV_FONT_DECLARE(lv_font_montserratMedium_16)
 LV_FONT_DECLARE(lv_font_montserratMedium_20)
-LV_FONT_DECLARE(lv_font_montserratMedium_13)
+LV_FONT_DECLARE(lv_font_montserratMedium_22)
 LV_FONT_DECLARE(lv_font_montserratMedium_12)
+LV_FONT_DECLARE(lv_font_montserratMedium_16)
+LV_FONT_DECLARE(lv_font_montserratMedium_13)
 LV_FONT_DECLARE(lv_font_montserratMedium_30)
 LV_FONT_DECLARE(lv_font_montserratMedium_14)
 LV_FONT_DECLARE(lv_font_montserratMedium_18)

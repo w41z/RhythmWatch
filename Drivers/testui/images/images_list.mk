@@ -1,0 +1,1 @@
+GEN_CSRCS += _rtc_RGB565A8_87x80.c _humi_temp_RGB565A8_90x80.c _music_RGB565A8_80x80.c _weather_RGB565A8_80x80.c _homebtn_RGB565A8_45x45.c

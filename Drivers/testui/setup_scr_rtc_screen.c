@@ -120,27 +120,6 @@ void setup_scr_rtc_screen(lv_ui *ui)
     lv_obj_set_style_pad_left(ui->rtc_screen_label_rtc_day, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_shadow_width(ui->rtc_screen_label_rtc_day, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
-    //Write codes rtc_screen_btn_1
-    ui->rtc_screen_btn_1 = lv_button_create(ui->rtc_screen);
-    lv_obj_set_pos(ui->rtc_screen_btn_1, 177, 277);
-    lv_obj_set_size(ui->rtc_screen_btn_1, 57, 35);
-    ui->rtc_screen_btn_1_label = lv_label_create(ui->rtc_screen_btn_1);
-    lv_label_set_text(ui->rtc_screen_btn_1_label, "Home");
-    lv_label_set_long_mode(ui->rtc_screen_btn_1_label, LV_LABEL_LONG_WRAP);
-    lv_obj_align(ui->rtc_screen_btn_1_label, LV_ALIGN_CENTER, 0, 0);
-    lv_obj_set_style_pad_all(ui->rtc_screen_btn_1, 0, LV_STATE_DEFAULT);
-    lv_obj_set_width(ui->rtc_screen_btn_1_label, LV_PCT(100));
-
-    //Write style for rtc_screen_btn_1, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_bg_opa(ui->rtc_screen_btn_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_border_width(ui->rtc_screen_btn_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->rtc_screen_btn_1, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui->rtc_screen_btn_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_color(ui->rtc_screen_btn_1, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->rtc_screen_btn_1, &lv_font_montserratMedium_16, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui->rtc_screen_btn_1, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_align(ui->rtc_screen_btn_1, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
-
     //Write codes rtc_screen_modebtn
     ui->rtc_screen_modebtn = lv_button_create(ui->rtc_screen);
     lv_obj_set_pos(ui->rtc_screen_modebtn, 36, 150);
@@ -255,6 +234,46 @@ void setup_scr_rtc_screen(lv_ui *ui)
     lv_obj_set_style_text_font(ui->rtc_screen_addbtn, &lv_font_montserratMedium_16, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui->rtc_screen_addbtn, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(ui->rtc_screen_addbtn, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes rtc_screen_btn_1
+    ui->rtc_screen_btn_1 = lv_imagebutton_create(ui->rtc_screen);
+    lv_obj_set_pos(ui->rtc_screen_btn_1, 188, 267);
+    lv_obj_set_size(ui->rtc_screen_btn_1, 45, 45);
+    lv_obj_add_flag(ui->rtc_screen_btn_1, LV_OBJ_FLAG_CHECKABLE);
+    lv_imagebutton_set_src(ui->rtc_screen_btn_1, LV_IMAGEBUTTON_STATE_RELEASED, &_homebtn_RGB565A8_45x45, NULL, NULL);
+    lv_imagebutton_set_src(ui->rtc_screen_btn_1, LV_IMAGEBUTTON_STATE_PRESSED, &_homebtn_RGB565A8_45x45, NULL, NULL);
+    ui->rtc_screen_btn_1_label = lv_label_create(ui->rtc_screen_btn_1);
+    lv_label_set_text(ui->rtc_screen_btn_1_label, "");
+    lv_label_set_long_mode(ui->rtc_screen_btn_1_label, LV_LABEL_LONG_WRAP);
+    lv_obj_align(ui->rtc_screen_btn_1_label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_pad_all(ui->rtc_screen_btn_1, 0, LV_STATE_DEFAULT);
+
+    //Write style for rtc_screen_btn_1, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_text_color(ui->rtc_screen_btn_1, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->rtc_screen_btn_1, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->rtc_screen_btn_1, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->rtc_screen_btn_1, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->rtc_screen_btn_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write style for rtc_screen_btn_1, Part: LV_PART_MAIN, State: LV_STATE_PRESSED.
+    lv_obj_set_style_image_recolor_opa(ui->rtc_screen_btn_1, 0, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_image_opa(ui->rtc_screen_btn_1, 255, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_text_color(ui->rtc_screen_btn_1, lv_color_hex(0xFF33FF), LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_text_font(ui->rtc_screen_btn_1, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_text_opa(ui->rtc_screen_btn_1, 255, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_shadow_width(ui->rtc_screen_btn_1, 0, LV_PART_MAIN|LV_STATE_PRESSED);
+
+    //Write style for rtc_screen_btn_1, Part: LV_PART_MAIN, State: LV_STATE_CHECKED.
+    lv_obj_set_style_image_recolor_opa(ui->rtc_screen_btn_1, 0, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_image_opa(ui->rtc_screen_btn_1, 255, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_text_color(ui->rtc_screen_btn_1, lv_color_hex(0xFF33FF), LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_text_font(ui->rtc_screen_btn_1, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_text_opa(ui->rtc_screen_btn_1, 255, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_shadow_width(ui->rtc_screen_btn_1, 0, LV_PART_MAIN|LV_STATE_CHECKED);
+
+    //Write style for rtc_screen_btn_1, Part: LV_PART_MAIN, State: LV_IMAGEBUTTON_STATE_RELEASED.
+    lv_obj_set_style_image_recolor_opa(ui->rtc_screen_btn_1, 0, LV_PART_MAIN|LV_IMAGEBUTTON_STATE_RELEASED);
+    lv_obj_set_style_image_opa(ui->rtc_screen_btn_1, 255, LV_PART_MAIN|LV_IMAGEBUTTON_STATE_RELEASED);
 
     //The custom code of rtc_screen.
 
