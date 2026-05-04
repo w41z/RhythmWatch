@@ -195,12 +195,7 @@ void Weather_Manager_Task(lv_ui *ui)
     if (lv_scr_act() != ui->weather_screen)
         return;
 
-    weather_set_label(ui->weather_screen_s_stat, "Starting...");
-    weather_set_label(ui->weather_screen_s_sta, weather_ssid);
     weather_set_label(ui->weather_screen_w_loc, weather_location);
-    weather_set_label(ui->weather_screen_w_con, "connecting...");
-    weather_set_label(ui->weather_screen_w_rt, "connecting...");
-    weather_set_label(ui->weather_screen_w_at, "connecting...");
 
     if (!wifi_connected)
     {

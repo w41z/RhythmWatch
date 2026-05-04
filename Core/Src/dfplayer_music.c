@@ -206,11 +206,23 @@ static void music_screen_delete_handler(lv_event_t *e)
 
     if(ui) {
         ui->music_screen = NULL;
+        ui->music_screen_song_name = NULL;
+        ui->music_screen_status = NULL;
+        ui->music_screen_btn_1 = NULL;
+        ui->music_screen_btn_1_label = NULL;
         ui->music_screen_playpulsebtn = NULL;
+        ui->music_screen_playpulsebtn_label = NULL;
         ui->music_screen_nextbtn = NULL;
+        ui->music_screen_nextbtn_label = NULL;
         ui->music_screen_prevbtn = NULL;
+        ui->music_screen_prevbtn_label = NULL;
         ui->music_screen_plusbtn = NULL;
+        ui->music_screen_plusbtn_label = NULL;
         ui->music_screen_minusbtn = NULL;
+        ui->music_screen_minusbtn_label = NULL;
+        ui->music_screen_volume = NULL;
+        ui->music_screen_randombtn = NULL;
+        ui->music_screen_randombtn_label = NULL;
         ui->music_screen_ddlist_1 = NULL;
     }
 
@@ -323,30 +335,30 @@ void DFPlayer_Manager_Task(lv_ui *ui)
 	}
 
     // Update play/pause button text
-	if (ui->music_screen_playpulsebtn) {
-		lv_obj_t *label = lv_obj_get_child(ui->music_screen_playpulsebtn, 0);
-		if (label) {
-			if (current_busy) {
-				lv_label_set_text(label, "Play");
-			} else {
-				lv_label_set_text(label, "Pause");
-			}
-		}
-	}
+    if (ui->music_screen_playpulsebtn && lv_obj_is_valid(ui->music_screen_playpulsebtn)) {
+        lv_obj_t *label = lv_obj_get_child(ui->music_screen_playpulsebtn, 0);
+        if (label && lv_obj_is_valid(label)) {
+            if (current_busy) {
+                lv_label_set_text(label, "Play");
+            } else {
+                lv_label_set_text(label, "Pause");
+            }
+        }
+    }
 
-	// Status Label ---
-	if (ui->music_screen_status && lv_obj_is_valid(ui->music_screen_status)) {
-		if (current_busy) {
-			lv_label_set_text(ui->music_screen_status, "Click \"Play\" to start");
-		} else if (is_paused) {
-			lv_label_set_text(ui->music_screen_status, "Now Pausing");
-		} else {
-			lv_label_set_text(ui->music_screen_status, "Now playing");
-		}
-	}
+    // Status Label ---
+    if (ui->music_screen_status && lv_obj_is_valid(ui->music_screen_status)) {
+        if (current_busy) {
+            lv_label_set_text(ui->music_screen_status, "Click \"Play\" to start");
+        } else if (is_paused) {
+            lv_label_set_text(ui->music_screen_status, "Now Pausing");
+        } else {
+            lv_label_set_text(ui->music_screen_status, "Now playing");
+        }
+    }
 
-	// Song Name Label (Song - Singer) ---
-	if (ui->music_screen_song_name) {
+    // Song Name Label (Song - Singer) ---
+    if (ui->music_screen_song_name && lv_obj_is_valid(ui->music_screen_song_name)) {
 		// current_track 係由 1 開始，陣列係由 0 開始，所以要 -1
 		int index = current_track - 1;
 
