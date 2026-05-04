@@ -1,0 +1,16 @@
+%%{init: {'themeVariables': {'lineColor': '#000000'}}}%%
+flowchart TD
+    Start["User pressed Fetch data button"] 
+        --> Event["lvgl event triggered:<br/>RequestFetch()"]
+        --> MainLoop["Main loop call<br/>Weather_Manager_Task(ui)"]
+        --> FetchData["Grab data from wttr.in<br/>and refresh the screen with<br/>lv_label_set_text() to display the weather info"]
+        --> Finish["END"]
+
+    %% Styling
+    classDef start fill:#4CAF50,stroke:#333,color:#fff
+    classDef process fill:#2196F3,stroke:#fff,color:#fff
+    classDef terminal fill:#f44336,stroke:#333,color:#fff
+
+    class Start start
+    class Event,MainLoop,FetchData process
+    class Finish terminal
