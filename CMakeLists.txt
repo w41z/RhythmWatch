@@ -69,7 +69,10 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     # LVGL Custom Fonts (from GUI Guider)
     Drivers/testui/guider_fonts/lv_font_montserratMedium_12.c
     Drivers/testui/guider_fonts/lv_font_montserratMedium_13.c
+    Drivers/testui/guider_fonts/lv_font_montserratMedium_14.c
+    Drivers/testui/guider_fonts/lv_font_montserratMedium_15.c
     Drivers/testui/guider_fonts/lv_font_montserratMedium_16.c
+    Drivers/testui/guider_fonts/lv_font_montserratMedium_18.c
     Drivers/testui/guider_fonts/lv_font_montserratMedium_20.c
     Drivers/testui/guider_fonts/lv_font_montserratMedium_30.c
 )
