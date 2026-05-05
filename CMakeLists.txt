@@ -74,7 +74,14 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     Drivers/testui/guider_fonts/lv_font_montserratMedium_16.c
     Drivers/testui/guider_fonts/lv_font_montserratMedium_18.c
     Drivers/testui/guider_fonts/lv_font_montserratMedium_20.c
+    Drivers/testui/guider_fonts/lv_font_montserratMedium_22.c
     Drivers/testui/guider_fonts/lv_font_montserratMedium_30.c
+     # LVGL UI Images
+    Drivers/testui/images/_rtc_RGB565A8_87x80.c
+    Drivers/testui/images/_humi_temp_RGB565A8_90x80.c
+    Drivers/testui/images/_music_RGB565A8_80x80.c
+    Drivers/testui/images/_weather_RGB565A8_80x80.c
+    Drivers/testui/images/_homebtn_RGB565A8_45x45.c
 )
 
 # Add include paths
