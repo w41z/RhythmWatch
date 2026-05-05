@@ -1,0 +1,9 @@
+---
+title: Decrement_Field
+---
+
+flowchart TD
+    A[Input: tm, field] --> B[Select the active RTC field]
+    B --> C[Decrease the selected field]
+    C --> D[Apply any needed rollover or bounds handling]
+    D --> E[return]

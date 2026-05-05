@@ -1,0 +1,8 @@
+---
+title: RW_RTC_GetTime
+---
+
+flowchart TD
+    A[Read RTC time request] --> B[Get current RTC counter value]
+    B --> C[Convert counter value into calendar time]
+    C --> D[Return current time structure]

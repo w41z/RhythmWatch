@@ -1,0 +1,15 @@
+---
+title: RTC_Manager_Task
+---
+
+flowchart TD
+    A[RTC manager task runs] --> B[Detect RTC screen changes]
+    B --> C[Bind UI event handlers when screen is new]
+    C --> D{RTC screen currently active?}
+    D -- No --> E[return]
+    D -- Yes --> F{Editing mode active?}
+    F -- Yes --> G[Show editable RTC time]
+    F -- No --> H[Read current RTC time]
+    H --> I[Show current RTC time]
+    G --> J[return]
+    I --> J

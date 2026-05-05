@@ -1,0 +1,8 @@
+---
+title: RW_RTC_SetTime
+---
+
+flowchart TD
+    A[Set RTC time request] --> B[Convert calendar time to RTC counter value]
+    B --> C[Write value into RTC hardware]
+    C --> D[Return status]
