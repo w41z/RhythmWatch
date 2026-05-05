@@ -25,7 +25,7 @@ typedef struct {
 } SongInfo;
 
 static const SongInfo playlist[] = {
-    {"Yoru ni Kakeru", "Yoasobi"}, // Track 1
+    {"10 seconds song", "Music Only"}, // Track 1
     {"You Belong With Me", "Taylor Swift"}, // Track 2
     {"Love You Too Much", "Hins Cheung"}, // Track 3
     {"Dummy testing song", "Sound from AI"}  // Track 4
@@ -293,7 +293,6 @@ void DFPlayer_Manager_Task(lv_ui *ui)
 	//int current_busy = dfplayer_is_actually_playing();
 	int current_busy = HAL_GPIO_ReadPin(DFPLAYER_BUSY_PORT, DFPLAYER_BUSY_PIN);
 
-	    // 重點：判斷「自然播完」
 	    // 條件：上一刻係 0 (播緊)，呢一刻變咗 1 (停咗)，而且「唔係」User 手動撳咗暫停
 	    if (last_busy_state == 0 && current_busy == 1) {
 	        if (!is_paused) {

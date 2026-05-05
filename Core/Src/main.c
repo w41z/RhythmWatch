@@ -140,7 +140,7 @@ int main(void)
   events_init(&guider_ui);
 
   // Initialize weather manager with WiFi credentials
-  Weather_Manager_SetCredentials("mandycck", "mc329715");
+  Weather_Manager_SetCredentials("Simon", "88888888");
   Weather_Manager_SetLocation("Hong+Kong");
 
   /* USER CODE END 2 */
