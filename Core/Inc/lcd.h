@@ -53,8 +53,7 @@
 /* ====================== Touch Panel Functions ====================== */
 uint16_t TP_Get_X(void);
 uint16_t TP_Get_Y(void);
-uint8_t  TP_IsTouched(void);
-void     TP_Get_Coordinates(uint16_t *pixelX, uint16_t *pixelY);     
+uint8_t  TP_IsTouched(void);     
 
 void            LCD_INIT		( void );
 void            LCD_Rst			( void );
@@ -71,7 +70,5 @@ void            LCD_DrawChar		( uint16_t usC, uint16_t usP, const char cChar);
 void            LCD_DrawString		( uint16_t usC, uint16_t usP, const char * pStr);
 void            LCD_DrawDot		( uint16_t usC, uint16_t usP, uint16_t usColor );
 void 		LCD_DrawEllipse		( uint16_t usC, uint16_t usP, uint16_t SR, uint16_t LR, uint16_t usColor);
-void        Delay               ( __IO uint32_t nCount );
-void        LCD_DrawColorBuffer (uint16_t usC, uint16_t usP, uint16_t usW, uint16_t usH, uint16_t *pBuffer);
 #endif 
 

@@ -102,7 +102,7 @@ static void disp_flush(lv_display_t * disp_drv, const lv_area_t * area, uint8_t 
 	uint16_t width = (area->x2 - area->x1 + 1);
 	uint16_t height = (area->y2 - area->y1 + 1);
 
-	/* Use the new optimized buffer write function */
+	/* Write function */
 	LCD_DrawColorBuffer(area->x1, area->y1, width, height, (uint16_t *)px_map);
 
 	/* IMPORTANT: Tell LVGL that flushing is finished */

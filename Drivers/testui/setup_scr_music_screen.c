@@ -78,7 +78,7 @@ void setup_scr_music_screen(lv_ui *ui)
     ui->music_screen_ddlist_1 = lv_dropdown_create(ui->music_screen);
     lv_obj_set_pos(ui->music_screen_ddlist_1, 21, 111);
     lv_obj_set_size(ui->music_screen_ddlist_1, 198, 33);
-    lv_dropdown_set_options(ui->music_screen_ddlist_1, "Yoru ni Kakeru \nYou Belong With Me\nLove You Too Much\nDummy testing song");
+    lv_dropdown_set_options(ui->music_screen_ddlist_1, "10 seconds song \nYou Belong With Me\nLove You Too Much\nDummy testing song");
 
     //Write style for music_screen_ddlist_1, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_text_color(ui->music_screen_ddlist_1, lv_color_hex(0x0D3055), LV_PART_MAIN|LV_STATE_DEFAULT);

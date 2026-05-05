@@ -68,7 +68,7 @@ static uint16_t TP_Read_Byte(void)
     for (i = 0; i < 12; i++)
     {
         TP_CLK_H();
-        Delay(1);  // Wait for data to be ready
+        Delay(1);
         buf <<= 1;
         if (TP_MISO()) buf |= 0x01;
         TP_CLK_L();
@@ -614,7 +614,7 @@ void LCD_DrawColorBuffer(uint16_t usC, uint16_t usP, uint16_t usW, uint16_t usH,
     LCD_OpenWindow(usC, usP, usW, usH);
 
     // 2. Prepare to write to memory
-    LCD_Write_Cmd(CMD_SetPixel); // This is typically 0x2C
+    LCD_Write_Cmd(CMD_SetPixel);
 
     // 3. Stream the buffer data directly
     for (i = 0; i < total_pixels; i++)

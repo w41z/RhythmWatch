@@ -165,17 +165,10 @@ static void touchpad_init(void)
 /*Will be called by the library to read the touchpad*/
 static void touchpad_read(lv_indev_t * indev_drv, lv_indev_data_t * data)
 {
-	static uint32_t last_debug = 0;
 
 	if(TP_IsTouched()) {
 		uint16_t pixelX, pixelY;
 		TP_Get_Coordinates(&pixelX, &pixelY);
-
-		/* Print coordinates every 1 second */
-		if((HAL_GetTick() - last_debug) > 1000) {
-			last_debug = HAL_GetTick();
-			/* You can display on LCD or use serial debug */
-		}
 
 		data->point.x = pixelX;
 		data->point.y = pixelY;
