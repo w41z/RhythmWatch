@@ -1,0 +1,147 @@
+flowchart TD
+
+    subgraph F1[RW_RTC_SetTime]
+        A1[Input: struct tm *time] --> A2["mktime(time)"]
+        A2 --> A3[Convert tm to unix_time]
+        A3 --> A4["RTC_WriteTimeCounter(&hrtc, unix_time)"]
+        A4 --> A5[Return HAL status]
+    end
+
+    subgraph F2[RW_RTC_GetTime]
+        B1["Call RTC_ReadTimeCounter(&hrtc)"] --> B2[Store as time_t unix_time]
+        B2 --> B3["gmtime(&unix_time)"]
+        B3 --> B4[Return struct tm*]
+    end
+
+    subgraph F3[RW_RTC_Init]
+        C1[Read backup register RTC_BKP_DR1] --> C2{init_Flag == RTC_INIT_FLAG?}
+        C2 -- Yes --> C3[RTC already initialized]
+        C3 --> C4[return]
+        C2 -- No --> C5["HAL_RTC_Init(&hrtc)"]
+        C5 --> C6{HAL_OK?}
+        C6 -- No --> C7[Error_Handler]
+        C6 -- Yes --> C8[Build default struct tm time]
+        C8 --> C9["RW_RTC_SetTime(&time)"]
+        C9 --> C10[Write RTC_BKP_DR1 = RTC_INIT_FLAG]
+        C10 --> C4
+    end
+
+    subgraph F4[Next_Edit_Field]
+        D1[curr_field = curr_field + 1] --> D2[Modulo NUM_FIELDS]
+        D2 --> D3[return]
+    end
+
+    subgraph F5[Increment_Field]
+        E1[Input: tm, field] --> E2{field}
+        E2 -- YEAR --> E3[tm_year++ or wrap to 0]
+        E2 -- MONTH --> E4["tm_mon = (tm_mon + 1) % 12"]
+        E2 -- MDAY --> E5[tm_mday++ then wrap 31 -> 1]
+        E2 -- HOUR --> E6["tm_hour = (tm_hour + 1) % 24"]
+        E2 -- MIN --> E7["tm_min = (tm_min + 1) % 60"]
+        E2 -- SEC --> E8["tm_sec = (tm_sec + 1) % 60"]
+        E2 -- default --> E9[No change]
+        E3 --> E10[return]
+        E4 --> E10
+        E5 --> E10
+        E6 --> E10
+        E7 --> E10
+        E8 --> E10
+        E9 --> E10
+    end
+
+    subgraph F6[Decrement_Field]
+        F1a[Input: tm, field] --> F2a{field}
+        F2a -- YEAR --> F3a[tm_year-- or wrap to 206]
+        F2a -- MONTH --> F4a["tm_mon = (tm_mon + 11) % 12"]
+        F2a -- MDAY --> F5a[tm_mday-- then wrap 1 -> 31]
+        F2a -- HOUR --> F6a["tm_hour = (tm_hour + 23) % 24"]
+        F2a -- MIN --> F7a["tm_min = (tm_min + 59) % 60"]
+        F2a -- SEC --> F8a["tm_sec = (tm_sec + 59) % 60"]
+        F2a -- default --> F9a[No change]
+        F3a --> F10a[return]
+        F4a --> F10a
+        F5a --> F10a
+        F6a --> F10a
+        F7a --> F10a
+        F8a --> F10a
+        F9a --> F10a
+    end
+
+    subgraph F7[rtc_button_handler]
+        G1[Event arrives] --> G2[Get btn, ui, code]
+        G2 --> G3{btn == rtc_screen_modebtn?}
+
+        G3 -- Yes --> G4{code == LV_EVENT_LONG_PRESSED AND sys_mode == MODE_EDIT?}
+        G4 -- Yes --> G5[long_press_flag = true]
+        G5 --> G6["RW_RTC_SetTime(&edit_tm)"]
+        G6 --> G7[sys_mode = MODE_DISPLAY]
+        G7 --> G8[Set mode label = Display]
+
+        G4 -- No --> G9{code == LV_EVENT_RELEASED?}
+        G9 -- Yes --> G10[Do nothing]
+        G9 -- No --> G11{code == LV_EVENT_CLICKED?}
+        G11 -- Yes --> G12{long_press_flag == true?}
+        G12 -- Yes --> G13[long_press_flag = false]
+        G13 --> G14[return]
+        G12 -- No --> G15{sys_mode != MODE_EDIT?}
+        G15 -- Yes --> G16[Switch to edit mode]
+        G16 --> G17[sys_mode = MODE_EDIT]
+        G17 --> G18[curr_field = FIELD_YEAR]
+        G18 --> G19["edit_tm = *RW_RTC_GetTime()"]
+        G19 --> G20[Set mode label = Edit: Year]
+        G15 -- No --> G21[stay in edit mode]
+
+        G3 -- No --> G22{sys_mode != MODE_EDIT?}
+        G22 -- Yes --> G23[Ignore other buttons]
+        G23 --> G24[return]
+        G22 -- No --> G25{btn == rtc_screen_nextbtn AND code == LV_EVENT_CLICKED?}
+        G25 -- Yes --> G26["Next_Edit_Field()"]
+        G26 --> G27[Build label text from field list]
+        G27 --> G28[Set mode label = Edit: ...]
+        G25 -- No --> G29{btn == rtc_screen_addbtn AND code == LV_EVENT_CLICKED?}
+        G29 -- Yes --> G30["Increment_Field(&edit_tm, curr_field)"]
+        G29 -- No --> G31{btn == rtc_screen_minusbtn AND code == LV_EVENT_CLICKED?}
+        G31 -- Yes --> G32["Decrement_Field(&edit_tm, curr_field)"]
+        G31 -- No --> G33[No action]
+    end
+
+    subgraph F8[rtc_screen_delete_handler]
+        H1[Event arrives] --> H2{code == LV_EVENT_DELETE?}
+        H2 -- No --> H3[return]
+        H2 -- Yes --> H4[Get ui from event data]
+        H4 --> H5{ui valid?}
+        H5 -- Yes --> H6[Set rtc_screen and button pointers = NULL]
+        H5 -- No --> H7[Skip pointer clearing]
+        H6 --> H8[last_known_rtc_screen = NULL]
+        H7 --> H8
+        H8 --> H9[sys_mode = MODE_DISPLAY]
+        H9 --> H10[long_press_flag = false]
+        H10 --> H3
+    end
+
+    subgraph F9[RW_RTC_Showtime]
+        I1[Input: time, ui] --> I2[Format date string]
+        I2 --> I3[Set rtc_screen_label_rtc_date]
+        I3 --> I4[Format time string]
+        I4 --> I5[Set rtc_screen_label_rtc_time]
+        I5 --> I6[Lookup weekday from tm_wday]
+        I6 --> I7[Set rtc_screen_label_rtc_day]
+        I7 --> I8[return]
+    end
+
+    subgraph F10[RTC_Manager_Task]
+        J1[Input: ui] --> J2{ui->rtc_screen != NULL AND != last_known_rtc_screen?}
+        J2 -- Yes --> J3[Bind event callbacks to buttons and screen delete]
+        J3 --> J4[last_known_rtc_screen = ui->rtc_screen]
+        J2 -- No --> J5[Skip rebind]
+
+        J4 --> J6{"ui->rtc_screen == NULL OR lv_scr_act() != ui->rtc_screen?"}
+        J5 --> J6
+        J6 -- Yes --> J7[return]
+        J6 -- No --> J8{sys_mode == MODE_EDIT?}
+        J8 -- Yes --> J9["RW_RTC_Showtime(&edit_tm, ui)"]
+        J8 -- No --> J10["now = RW_RTC_GetTime()"]
+        J10 --> J11["RW_RTC_Showtime(now, ui)"]
+        J9 --> J12[return]
+        J11 --> J12
+    end

@@ -1,0 +1,8 @@
+---
+title: rtc_screen_delete_handler
+---
+
+flowchart TD
+    A[RTC screen is deleted] --> B[Clean up cached UI references]
+    B --> C[Reset RTC UI state]
+    C --> D[return]
