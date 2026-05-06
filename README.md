@@ -1,11 +1,10 @@
 # RhythmWatch
+<div align="center">
+   <img width="30%" alt="5photo1" src="https://github.com/user-attachments/assets/21078689-8a98-4600-bf2a-db73a24f3ed2" />
+   <img width="30%" alt="5photo2" src="https://github.com/user-attachments/assets/6661ee73-2074-4dfc-bd69-b75c8fe21d1e" />
+</div>
 
-RhythmWatch is an embedded firmware project for a smart watch/clock device built around the **STM32F103** microcontroller (ARM Cortex-M3). It combines sensor monitoring, Wi-Fi weather fetching, MP3 audio playback, and a touchscreen GUI into a single bare-metal application.
-
-### Canva
-<img width="864" height="443" alt="image" src="https://github.com/user-attachments/assets/fdb57372-d627-46a5-b2f1-e45285ed78b1" />
-
-link: [https://canva.link/8xa20uo94wrfnxg](https://canva.link/8xa20uo94wrfnxg)
+RhythmWatch is an embedded firmware project for a smart watch/clock device built around the **STM32F103** microcontroller (ARM Cortex-M3). It combines sensor monitoring, Wi-Fi weather fetching, MP3 audio playback, and a touchscreen GUI into a single bare-metal application. The project is one of the main assessment for the course ELEC3300 in HKUST.
 
 ---
 
@@ -117,32 +116,3 @@ main()
 | USART3 | 115200 | ESP8266 Wi-Fi (AT commands) |
 
 ---
-
-## Getting Started
-
-### Clone the repository
-```
-git clone git@github.com:w41z/RhythmWatch.git
-```
-
-### Build (CMake)
-```
-cmake --preset <your-preset>
-cmake --build build/
-```
-
-### Build (STM32CubeIDE)
-Open the `STM32CubeIDE/` project directory in STM32CubeIDE and build normally.
-
----
-
-## Contributing
-
-> **Warning:** Please start work on new branches. **DO NOT MODIFY THE `main` BRANCH DIRECTLY!**
-
-```
-git branch <name_of_branch>
-git switch <name_of_branch>
-```
-
-Make a Pull Request (PR) for any upgrade or new feature!
