@@ -1,5 +1,5 @@
 /* Depreciated
-   The project now uses the lcd.c in the Core/Src instead
+   The project now uses the lcd.c in the Core/Src instead */
 
 // #include "lcd.h"
 // #include "ascii.h"
