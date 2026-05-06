@@ -1,0 +1,20 @@
+---
+title: rtc_button_handler
+---
+
+flowchart TD
+    A[RTC screen event arrives] --> B[Read pressed control and current UI state]
+    B --> C{Mode button pressed?}
+    C -- Yes --> D{Editing or display toggle?}
+    D -- Yes --> E[Enter or leave edit mode]
+    E --> F[Save time when needed]
+    F --> G[Update mode label]
+
+    C -- No --> H{Editing mode active?}
+    H -- No --> I[Ignore non-mode controls]
+    I --> J[return]
+    H -- Yes --> K[Handle next/add/minus actions]
+    K --> L[Update edit state]
+    L --> M[Refresh mode label]
+    G --> J
+    M --> J

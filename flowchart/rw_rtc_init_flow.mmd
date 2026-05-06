@@ -1,0 +1,15 @@
+---
+title: RW_RTC_Init
+---
+
+flowchart TD
+    A[Start RTC initialization] --> B{RTC already initialized?}
+    B -- Yes --> C[Skip setup]
+    C --> D[return]
+    B -- No --> E[Initialize RTC peripheral]
+    E --> F{Initialization successful?}
+    F -- No --> G[Error_Handler]
+    F -- Yes --> H[Load default startup time]
+    H --> I[Store default time in RTC]
+    I --> J[Mark RTC as initialized]
+    J --> D
